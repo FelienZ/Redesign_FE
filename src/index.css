@@ -1,11 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Pixelify+Sans:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
-
-/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Pixelify+Sans:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
 
 @theme inline {
     --font-heading: var(--font-sans);
@@ -50,10 +49,37 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
-    /* --- LIGHT MODE (Clean White & Navy Accent) --- */
+  :root {
+    --background: oklch(0.13 0.028 255);
+    --foreground: oklch(0.97 0.01 255);
+    
+    --card: oklch(0.97 0.01 255);
+    --card-foreground: oklch(0.17 0.032 255);
+    
+    --popover: oklch(0.17 0.032 255);
+    --popover-foreground: oklch(0.97 0.01 255);
+    
+    --primary: oklch(58.668% 0.18945 256.114); 
+    --primary-foreground: oklch(0.99 0 0);
+    
+    --secondary: oklch(0.22 0.025 255);
+    --secondary-foreground: oklch(0.97 0.01 255);
+    
+    --muted: oklch(0.20 0.025 255);
+    --muted-foreground: oklch(0.65 0.02 255);
+    
+    --accent: oklch(0.22 0.032 255);
+    --accent-foreground: oklch(0.97 0.01 255);
+    
+    --destructive: oklch(0.60 0.20 25);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 12%);
+    --ring: oklch(0.52 0.22 25);
+  }
+
+  .dark {
     --background: oklch(0.99 0.005 255);
-    --foreground: oklch(0.12 0.03 255); /* Teks Navy Gelap */
+    --foreground: oklch(0.12 0.03 255);
     
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.12 0.03 255);
@@ -81,35 +107,6 @@
     --radius: 0.625rem;
   }
 
-  .dark {
-    /* --- DARK MODE (Premium Deep Navy - Sesuai Figma image_32e8f4.jpg) --- */
-    --background: oklch(0.13 0.028 255); /* Latar Navy Sangat Gelap */
-    --foreground: oklch(0.97 0.01 255);  /* Teks Putih Kebiruan */
-    
-    --card: oklch(0.17 0.032 255);       /* Card Navy Sedikit Lebih Terang */
-    --card-foreground: oklch(0.97 0.01 255);
-    
-    --popover: oklch(0.17 0.032 255);
-    --popover-foreground: oklch(0.97 0.01 255);
-    
-    /* Primary Button: Crimson Red Menyala */
-    --primary: oklch(0.52 0.22 25); 
-    --primary-foreground: oklch(0.99 0 0);
-    
-    --secondary: oklch(0.22 0.025 255);
-    --secondary-foreground: oklch(0.97 0.01 255);
-    
-    --muted: oklch(0.20 0.025 255);
-    --muted-foreground: oklch(0.65 0.02 255);
-    
-    --accent: oklch(0.22 0.032 255);
-    --accent-foreground: oklch(0.97 0.01 255);
-    
-    --destructive: oklch(0.60 0.20 25);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 12%);
-    --ring: oklch(0.52 0.22 25);
-  }
 
 :root, .dark {
   /* 🟢 RATING 3+ (Semua Umur - Hijau) */
@@ -136,6 +133,8 @@
   --rating-18-solid: oklch(0.52 0.22 25);
   --rating-18-text: oklch(0.80 0.22 25);
   --rating-18-soft: oklch(0.52 0.22 25 / 12%);
+
+  --accent-yellow: oklch(0.82 0.17 85);
 }
 
 @layer base {
