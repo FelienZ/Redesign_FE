@@ -391,7 +391,7 @@ styleConfig.ts
 
 | Branch         | Keterangan        |
 | -------------- | ----------------- |
-| develop        | Development       |
+| dev            | Development       |
 | collaborations | Branch Kolaborasi |
 
 Contoh
@@ -401,8 +401,8 @@ Contoh
 # 🔮 Roadmap
 
 - [x] Landing Page
-- [] Responsive Layout
-- [] Design System
+- [ ] Responsive Layout
+- [ ] Design System
 - [ ] Backend Integration
 - [ ] API Fetching
 - [ ] Skeleton Loading
