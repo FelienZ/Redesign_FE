@@ -1,6 +1,7 @@
 import { gamesData } from "@/assets/data/games";
 import { Button } from "@/components/ui/button";
-import { Eye, Heart } from "lucide-react";
+import { Eye } from "lucide-react";
+import Heart from "@/assets/elements/Heart.svg";
 import { Link } from "react-router";
 
 export default function GameSection() {
@@ -8,7 +9,7 @@ export default function GameSection() {
     <section className="min-h-screen flex flex-col gap-5 px-8 py-10 justify-center">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <Heart className="fill-destructive text-destructive" />
+          <img src={Heart} alt="Heart-logo" />
           <h2 className="font-bold text-xl text-white">Gim di IGRS</h2>
         </div>
         <div className="flex items-center">

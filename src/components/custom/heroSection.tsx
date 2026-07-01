@@ -4,6 +4,7 @@ import { dummyList } from "@/assets/data/dummy";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { decorationItems } from "@/utils/decorationItems";
 import { Heart } from "lucide-react";
 
 export default function HeroSection() {
@@ -96,6 +97,23 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
+      <>
+        {decorationItems.map((i) => (
+          <img
+            key={i.src}
+            src={i.src}
+            alt=""
+            style={{
+              top: i.top,
+              left: i.left,
+              width: i.size,
+              height: i.size,
+              opacity: i.opacity,
+            }}
+            className="absolute"
+          />
+        ))}
+      </>
     </section>
   );
 }
