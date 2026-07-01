@@ -21,8 +21,8 @@ export default function RatingSection() {
               </span>
               <div className="grid grid-cols-3 gap-3 items-end text-left text-sm">
                 <p className="col-span-2">{i.description}</p>
-                <div className="flex flex-col gap-1 text-foreground text-center bg-black/20 p-3">
-                  <p className="font-pixel">{i.rating}</p>
+                <div className="flex flex-col gap-1 text-foreground text-center bg-black/20 py-2">
+                  <p className="font-pixel text-lg">{i.rating}</p>
                   <p>IGRS</p>
                 </div>
               </div>
