@@ -1,11 +1,12 @@
 import { Heart, Minus, Star } from "lucide-react";
+import { Link } from "react-router";
 
 export default function Footer() {
   return (
     <footer className="flex flex-col bg-card text-card-foreground/60">
-      <div className="grid grid-cols-4 gap-2 px-4 py-8">
-        <div className="flex flex-col gap-4 w-[85%]">
-          <img src="logo-igrs.webp" alt="logo-igrs" className="scale-90 w-30" />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-6 py-8 md:px-12">
+        <div className="flex flex-col gap-4 md:w-[85%]">
+          <img src="/logo-igrs.webp" alt="logo-igrs" className="scale-90 w-30" />
           <h3>Sistem Klasifikasi Permainan Interaktif Elektronik Indonesia</h3>
           <div className="flex items-center gap-2">
             <Heart className="size-4 fill-destructive text-destructive" />
@@ -15,22 +16,54 @@ export default function Footer() {
 
         {/* Layanan */}
         <div className="flex flex-col gap-4">
-          <h4 className="font-bold">Layanan</h4>
-          <ul className="flex flex-col gap-3 py-2">
-            <li>Cari Gim</li>
-            <li>Rating Usia</li>
-            <li>Deskriptor Konten</li>
-            <li>Konsultasi</li>
+          <h4 className="font-bold text-slate-900">Layanan</h4>
+          <ul className="flex flex-col gap-3 py-2 text-xs md:text-sm">
+            <li>
+              <Link to="/search" className="hover:underline hover:text-slate-900 transition">
+                Cari Gim
+              </Link>
+            </li>
+            <li>
+              <Link to="/information" className="hover:underline hover:text-slate-900 transition">
+                Rating Usia
+              </Link>
+            </li>
+            <li>
+              <Link to="/information" className="hover:underline hover:text-slate-900 transition">
+                Deskriptor Konten
+              </Link>
+            </li>
+            <li>
+              <Link to="/consult" className="hover:underline hover:text-slate-900 transition">
+                Konsultasi
+              </Link>
+            </li>
           </ul>
         </div>
         {/* Informasi */}
         <div className="flex flex-col gap-4">
-          <h4 className="font-bold">Informasi</h4>
-          <ul className="flex flex-col gap-3 py-2">
-            <li>Tentang IGRS</li>
-            <li>Regulasi</li>
-            <li>FAQ</li>
-            <li>Hubungi Kami</li>
+          <h4 className="font-bold text-slate-900">Informasi</h4>
+          <ul className="flex flex-col gap-3 py-2 text-xs md:text-sm">
+            <li>
+              <Link to="/about" className="hover:underline hover:text-slate-900 transition">
+                Tentang IGRS
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="hover:underline hover:text-slate-900 transition">
+                Regulasi
+              </Link>
+            </li>
+            <li>
+              <Link to="/information" className="hover:underline hover:text-slate-900 transition">
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link to="/consult" className="hover:underline hover:text-slate-900 transition">
+                Hubungi Kami
+              </Link>
+            </li>
           </ul>
         </div>
         {/* Layanan */}

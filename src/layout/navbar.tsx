@@ -11,7 +11,7 @@ export default function Navbar() {
         <NavLinkPath path="/about" title="Tentang"></NavLinkPath>
         <NavLinkPath
           path="/information"
-          title="Informasi Penting"
+          title="Informasi Rating"
         ></NavLinkPath>
         <NavLinkPath path="/consult" title="Konsultasi Adiksi"></NavLinkPath>
       </nav>
