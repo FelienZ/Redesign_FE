@@ -1,0 +1,17 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_2001_362" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+<path d="M15.9954 0H0V15.9954H15.9954V0Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_2001_362)">
+<path d="M8.88628 0H7.10901V1.77727H8.88628V0Z" fill="#FFD700"/>
+<path d="M10.6636 1.77722H5.33179V3.55449H10.6636V1.77722Z" fill="#FFD700"/>
+<path d="M15.9954 3.55444H0V7.10898H15.9954V3.55444Z" fill="#FFD700"/>
+<path d="M14.2181 7.10913H1.77722V8.8864H14.2181V7.10913Z" fill="#FFD700"/>
+<path d="M5.33183 8.88635H3.55457V10.6636H5.33183V8.88635Z" fill="#FFD700"/>
+<path d="M12.4408 8.88635H10.6636V10.6636H12.4408V8.88635Z" fill="#FFD700"/>
+<path d="M5.33175 10.6636H1.77722V12.4408H5.33175V10.6636Z" fill="#FFD700"/>
+<path d="M14.2181 10.6636H10.6636V12.4408H14.2181V10.6636Z" fill="#FFD700"/>
+<path d="M5.3318 12.4409H0V14.2181H5.3318V12.4409Z" fill="#FFD700"/>
+<path d="M15.9954 12.4409H10.6636V14.2181H15.9954V12.4409Z" fill="#FFD700"/>
+</g>
+</svg>

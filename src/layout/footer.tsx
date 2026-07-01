@@ -1,4 +1,6 @@
-import { Heart, Minus, Star } from "lucide-react";
+import { Minus } from "lucide-react";
+import Star from "@/assets/elements/Star.svg";
+import Heart from "@/assets/elements/Heart.svg";
 
 export default function Footer() {
   return (
@@ -8,7 +10,7 @@ export default function Footer() {
           <img src="logo-igrs.webp" alt="logo-igrs" className="scale-90 w-30" />
           <h3>Sistem Klasifikasi Permainan Interaktif Elektronik Indonesia</h3>
           <div className="flex items-center gap-2">
-            <Heart className="size-4 fill-destructive text-destructive" />
+            <img src={Heart} alt="Heart-logo" />
             <p>Made in Indonesia</p>
           </div>
         </div>
@@ -51,9 +53,11 @@ export default function Footer() {
         </span>
         <div className="flex items-center gap-3">
           {Array.from({ length: 3 }, (_, idx) => (
-            <Star
+            <img
+              src={Star}
               key={idx}
-              className={`${idx % 2 != 0 ? "fill-destructive text-destructive" : "text-muted-foreground"}`}
+              alt="Star-logo"
+              className={`${idx % 2 == 0 ? "opacity-50" : ""}`}
             />
           ))}
         </div>

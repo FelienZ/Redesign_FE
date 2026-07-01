@@ -1,13 +1,14 @@
 import { dummyThumbnail } from "@/assets/data/dummy";
 import { Button } from "@/components/ui/button";
-import { Eye, Heart } from "lucide-react";
+import { Eye } from "lucide-react";
+import Heart from "@/assets/elements/Heart.svg";
 
 export default function GameSection() {
   return (
     <section className="min-h-screen flex flex-col gap-5 px-8 py-10 justify-center">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <Heart className="fill-destructive text-destructive" />
+          <img src={Heart} alt="Heart-logo" />
           <h2 className="font-bold text-xl">Gim di IGRS</h2>
         </div>
         <div className="flex items-center">
@@ -23,7 +24,11 @@ export default function GameSection() {
               className="grid bg-accent hover:scale-105 transition"
             >
               <div className="relative">
-                <img src={i.imageUrl} alt="" className="aspect-video w-full" />
+                <img
+                  src={i.imageUrl}
+                  alt={i.title + " thumbnail"}
+                  className="aspect-video w-full"
+                />
                 <div
                   className={`absolute flex flex-col bg-(--rating-${i.rating}-solid) bottom-0 m-3 px-2 py-1 text-center text-sm`}
                 >

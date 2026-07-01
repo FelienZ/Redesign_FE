@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
+import Star from "@/assets/elements/Star.svg";
 
 export default function AddSection() {
   return (
     <section className="bg-(--rating-7-soft) flex flex-col gap-5 justify-center items-center min-h-[75vh]">
       <div className="flex items-center gap-3">
         {Array.from({ length: 5 }, (_, index) => (
-          <Star
+          <img
+            src={Star}
             key={index}
-            className={`fill-(--rating-13-soft) text-(--rating-13-${index % 2 == 0 ? "solid" : "soft"}) ${index % 2 == 0 ? "scale-140" : ""}`}
+            alt="Star-logo"
+            className={`${index == 2 ? "" : "opacity-25"}`}
           />
         ))}
       </div>
