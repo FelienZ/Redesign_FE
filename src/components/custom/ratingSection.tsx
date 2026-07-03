@@ -65,10 +65,10 @@ export default function RatingSection() {
   };
 
   return (
-    <section className="min-h-screen text-card flex flex-col justify-between gap-5">
-      <div className="p-8 flex flex-col gap-5">
+    <section className="text-card flex flex-col justify-between gap-5">
+      <div className="p-4 md:p-8 flex flex-col gap-5">
         {/* 1. Statistics Row */}
-        <div className="grid grid-cols-5 gap-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {dummyRating.map((i) => {
             const ratingNum = parseInt(getCleanRatingStr(i.rating));
             return (
@@ -101,7 +101,7 @@ export default function RatingSection() {
           </div>
 
           {/* Horizontal Badge Selection Bar */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Badge
               onClick={() => setActiveRating(3)}
               className={`p-5 border cursor-pointer transition select-none flex items-center gap-1.5 font-semibold text-xs md:text-sm ${
@@ -155,9 +155,9 @@ export default function RatingSection() {
           </div>
 
           {/* Dynamic Details Area */}
-          <div className="grid grid-cols-4 gap-3 my-5">
+          <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-4">
             {/* Left Block: Dynamic Descriptor Preview */}
-            <div className="grid col-span-1 bg-accent p-3 w-[110%] place-content-start gap-5 py-5 rounded-lg border border-slate-850">
+            <div className="grid bg-accent p-4 place-content-start gap-5 py-5 rounded-lg border border-slate-800 lg:col-span-1">
               <div className="flex items-center gap-3">
                 <div className={`flex flex-col gap-0.5 p-2 px-3 text-center rounded select-none ${activeMeta.colorClass}`}>
                   <p className="font-pixel text-xl font-bold leading-none text-white">{activeRating}+</p>
@@ -167,10 +167,10 @@ export default function RatingSection() {
                   <p className="text-[10px] font-bold tracking-wider uppercase text-slate-500">
                     Rating IGRS
                   </p>
-                  <h3 className="font-extrabold text-lg text-slate-250 font-heading leading-tight">{activeMeta.title}</h3>
+                  <h3 className="font-extrabold text-lg text-slate-200 font-heading leading-tight">{activeMeta.title}</h3>
                 </div>
               </div>
-              <p className="text-xs md:text-sm text-slate-350 leading-relaxed font-normal">
+              <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-normal">
                 {activeMeta.desc}
               </p>
               <Link
@@ -182,7 +182,7 @@ export default function RatingSection() {
             </div>
 
             {/* Right Block: Dynamic Games Grid */}
-            <div className="grid grid-cols-3 col-span-3 gap-3 w-[95%] place-self-end">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
               {displayedGames.map((game) => (
                 <Link
                   key={game.id}

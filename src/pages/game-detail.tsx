@@ -80,7 +80,7 @@ export default function GameDetailPage() {
   return (
     <section className="bg-background min-h-screen text-slate-100 flex flex-col justify-between">
       {/* Detail Header Banner */}
-      <div className="relative pt-20 pb-12 px-4 md:px-12 overflow-hidden bg-slate-950/80">
+      <div className="relative pt-8 pb-12 px-4 md:px-12 overflow-hidden bg-slate-950/80">
         {/* Background Image Blurred for Premium Look */}
         <div
           className="absolute inset-0 bg-cover bg-center opacity-25 blur-xl scale-110 pointer-events-none"

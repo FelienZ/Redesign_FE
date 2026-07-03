@@ -1,116 +1,109 @@
 import { Button } from "@/components/ui/button";
 import { Download, Info } from "lucide-react";
 import Footer from "@/layout/footer";
-
-const PixelDivider = () => (
-  <div
-    className="w-full h-4"
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='16' viewBox='0 0 32 16'%3E%3Cpath d='M0 16V8h8v8h8V8h8v8' fill='%2316a34a'/%3E%3C/svg%3E")`,
-      backgroundRepeat: "repeat-x",
-      backgroundSize: "32px 16px"
-    }}
-  />
-);
+import GrassDecoration from "@/components/ui/grassDecoration";
+import { useLanguage } from "@/utils/LanguageContext";
 
 export default function AboutPage() {
+  const { t, language } = useLanguage();
+
   const stats = [
-    { label: "Gim Terdaftar", value: "3.794+", color: "text-[oklch(0.65_0.20_145)]" },
-    { label: "Penerbit", value: "205+", color: "text-sky-400" },
-    { label: "Kategori Rating", value: "5", color: "text-amber-500" },
-    { label: "Regulasi Terbaru", value: "2024", color: "text-red-500" }
+    { label: t("about.stats.games"), value: "3.794+", color: "text-[oklch(0.65_0.20_145)]" },
+    { label: t("about.stats.publishers"), value: "205+", color: "text-sky-400" },
+    { label: t("about.stats.categories"), value: "5", color: "text-amber-500" },
+    { label: t("about.stats.regulation"), value: "2024", color: "text-red-500" }
   ];
 
   const infoList = [
     {
-      label: "Layanan Publik",
+      label: t("about.info.pub_service"),
       tagColor: "bg-red-500/10 text-red-500 border-red-500/20",
-      desc: "IGRS adalah layanan publik dari Kominfo sebagai komitmen pemerintah untuk mewujudkan penyelenggaraan sistem dan transaksi elektronik khususnya Gim yang aman, andal, dan bertanggung jawab."
+      desc: t("about.info.pub_service_desc")
     },
     {
-      label: "Dasar Hukum",
+      label: t("about.info.legal"),
       tagColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-      desc: "Klasifikasi Gim dilaksanakan sesuai Peraturan Menteri Komunikasi dan Informatika Nomor 2 Tahun 2024 tentang Klasifikasi Gim."
+      desc: t("about.info.legal_desc")
     },
     {
-      label: "Tujuan",
+      label: t("about.info.objective"),
       tagColor: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-      desc: "Memberikan klasifikasi usia dan konten dalam Gim yang beredar di Indonesia, dengan memperhatikan norma sosial, budaya bangsa, serta kesesuaian dengan peraturan perundang-undangan."
+      desc: t("about.info.objective_desc")
     },
     {
-      label: "Manfaat",
+      label: t("about.info.benefit"),
       tagColor: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-      desc: "Menyeimbangkan perkembangan industri kreatif digital dan kebutuhan perlindungan publik dari potensi dampak negatif konten gim melalui sistem yang transparan dan akuntabel."
+      desc: t("about.info.benefit_desc")
     }
   ];
 
   const abbreviation = [
-    { letter: "I", word: "Indonesia", desc: "Negara Kesatuan Republik Indonesia", color: "bg-red-600" },
-    { letter: "G", word: "Game", desc: "Permainan Interaktif Elektronik", color: "bg-blue-600" },
-    { letter: "R", word: "Rating", desc: "Klasifikasi berdasarkan usia", color: "bg-amber-600" },
-    { letter: "S", word: "System", desc: "Sistem Pengelompokan Nasional", color: "bg-emerald-600" }
+    { letter: "I", word: "Indonesia", desc: language === "ID" ? "Negara Kesatuan Republik Indonesia" : "Republic of Indonesia", color: "bg-red-600" },
+    { letter: "G", word: "Game", desc: language === "ID" ? "Permainan Interaktif Elektronik" : "Interactive Electronic Games", color: "bg-blue-600" },
+    { letter: "R", word: "Rating", desc: language === "ID" ? "Klasifikasi berdasarkan usia" : "Age-based Classification", color: "bg-amber-600" },
+    { letter: "S", word: "System", desc: language === "ID" ? "Sistem Pengelompokan Nasional" : "National Classification System", color: "bg-emerald-600" }
   ];
 
   const coreProcesses = [
-    { num: 1, title: "Registrasi Penerbit", color: "bg-pink-600" },
-    { num: 2, title: "Self-Assessment", color: "bg-blue-600" },
-    { num: 3, title: "Uji Kesesuaian", color: "bg-amber-600" },
-    { num: 4, title: "Penerbitan Rating", color: "bg-emerald-600" },
-    { num: 5, title: "Pengawasan/Pengaduan", color: "bg-purple-600" }
+    { num: 1, title: t("about.business.step1"), color: "bg-pink-600" },
+    { num: 2, title: t("about.business.step2"), color: "bg-blue-600" },
+    { num: 3, title: t("about.business.step3"), color: "bg-amber-600" },
+    { num: 4, title: t("about.business.step4"), color: "bg-emerald-600" },
+    { num: 5, title: t("about.business.step5"), color: "bg-purple-600" }
   ];
 
   const solutionCards = [
     {
-      tabLabel: "Tujuan Utama",
+      tabLabel: t("about.hadir.tujuan"),
       tabColor: "bg-red-600",
-      desc: "Memberikan klasifikasi usia dan konten dalam gim yang beredar di Indonesia, dengan memperhatikan norma sosial, budaya bangsa, serta kesesuaian peraturan."
+      desc: t("about.hadir.tujuan_desc")
     },
     {
-      tabLabel: "Dasar Hukum",
+      tabLabel: t("about.hadir.hukum"),
       tabColor: "bg-blue-600",
-      desc: "Dilaksanakan sesuai Peraturan Menteri Komunikasi dan Informatika Nomor 2 Tahun 2024 tentang Klasifikasi Gim."
+      desc: t("about.hadir.hukum_desc")
     },
     {
-      tabLabel: "Untuk Penerbit",
+      tabLabel: t("about.hadir.penerbit"),
       tabColor: "bg-emerald-600",
-      desc: "Memudahkan penerbit mendaftarkan dan mengklasifikasikan produknya, serta memfasilitasi aduan dan konsultasi masyarakat."
+      desc: t("about.hadir.penerbit_desc")
     },
     {
-      tabLabel: "Industri & Masyarakat",
+      tabLabel: t("about.hadir.industri"),
       tabColor: "bg-amber-600",
-      desc: "Mendukung pertumbuhan industri gim nasional yang berkelanjutan dan memperkuat reputasi Indonesia dalam regulasi konten digital."
+      desc: t("about.hadir.industri_desc")
     }
   ];
 
   const steps = [
     {
       num: "01",
-      title: "Daftar Akun",
-      desc: "Penerbit atau pengembang gim mendaftarkan akun resmi di portal IGRS sebagai langkah pertama.",
+      title: t("about.process.step1.title"),
+      desc: t("about.process.step1.desc"),
       tagColor: "bg-red-600"
     },
     {
       num: "02",
-      title: "Self-Assessment",
-      desc: "Penerbit mendata gim, mengunggah cuplikan konten & simulasi permainan, lalu menjawab kuesioner klasifikasi.",
+      title: t("about.process.step2.title"),
+      desc: t("about.process.step2.desc"),
       tagColor: "bg-blue-600"
     },
     {
       num: "03",
-      title: "Uji Kesesuaian",
-      desc: "Tim IGRS melakukan uji kesesuaian kandungan berdasarkan kategori usia elektronis yang berlaku, istilah resmi dalam regulasi.",
+      title: t("about.process.step3.title"),
+      desc: t("about.process.step3.desc"),
       tagColor: "bg-amber-600"
     },
     {
       num: "04",
-      title: "Proses Sanggah",
-      desc: "Jika tidak setuju dengan hasil verifikasi, penerbit dapat mengajukan proses sanggah secara resmi.",
+      title: t("about.process.step4.title"),
+      desc: t("about.process.step4.desc"),
       tagColor: "bg-emerald-600"
     },
     {
       num: "05",
-      title: "Penerbitan Sertifikat",
-      desc: "Sertifikat resmi diterbitkan oleh Menteri melalui sistem setelah hasil verifikasi resmi didapatkan. Penerbit kemudian dapat mengunduh sertifikat tersebut.",
+      title: t("about.process.step5.title"),
+      desc: t("about.process.step5.desc"),
       tagColor: "bg-purple-600"
     }
   ];
@@ -118,16 +111,16 @@ export default function AboutPage() {
   return (
     <section className="bg-background min-h-screen text-slate-100 flex flex-col justify-between">
       {/* 1. Hero Section */}
-      <div className="relative pt-28 pb-16 px-4 md:px-12 bg-linear-to-b from-blue-950/20 to-transparent overflow-hidden">
+      <div className="relative pt-12 pb-16 px-4 md:px-12 bg-linear-to-b from-blue-950/20 to-transparent overflow-hidden">
         <div className="max-w-6xl mx-auto flex flex-col gap-6 relative z-10">
           <span className="text-xs font-bold uppercase tracking-wider text-[oklch(0.65_0.20_145)] font-heading">
-            APA TENTANG KAMI
+            {t("about.title_label")}
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight font-heading">
-            Tentang <span className="text-[oklch(0.65_0.20_145)]">IGRS</span>
+            {language === "ID" ? "Tentang" : "About"} <span className="text-[oklch(0.65_0.20_145)]">IGRS</span>
           </h1>
           <p className="text-sm md:text-base text-slate-300 max-w-3xl leading-relaxed">
-            <strong>Indonesia Game Rating System (IGRS)</strong> adalah layanan publik dari Kementerian Komunikasi dan Digital (Komdigi) untuk mewujudkan gim yang aman, andal, dan bertanggung jawab di Indonesia.
+            {t("about.description")}
           </p>
 
           {/* Stats Bar */}
@@ -149,10 +142,11 @@ export default function AboutPage() {
         {/* Left Column: Info Cards */}
         <div className="lg:w-[60%] flex flex-col gap-6">
           <span className="text-xs font-bold uppercase tracking-wider text-red-500 font-heading">
-            APA ITU IGRS
+            {t("about.info.title_label")}
           </span>
           <h2 className="text-2xl md:text-3xl font-extrabold text-white font-heading">
-            Indonesia Game <span className="text-[oklch(0.65_0.20_145)]">Rating System</span>
+            {language === "ID" ? "Sistem Klasifikasi Gim" : "Game Classification"}{" "}
+            <span className="text-[oklch(0.65_0.20_145)]">Rating System</span>
           </h2>
           <div className="flex flex-col gap-4 mt-2">
             {infoList.map((info, idx) => (
@@ -176,7 +170,7 @@ export default function AboutPage() {
           {/* Card 1: Singkatan IGRS */}
           <div className="bg-slate-900/50 border border-slate-800 p-5 rounded-xl shadow-lg">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-4">
-              SINGKATAN IGRS
+              {t("about.abbreviation.title")}
             </span>
             <div className="flex flex-col gap-3">
               {abbreviation.map((ab, idx) => (
@@ -196,7 +190,7 @@ export default function AboutPage() {
           {/* Card 2: Proses Bisnis Utama */}
           <div className="bg-slate-900/50 border border-slate-800 p-5 rounded-xl shadow-lg">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-4">
-              PROSES BISNIS UTAMA
+              {t("about.business.title")}
             </span>
             <div className="flex flex-col gap-3">
               {coreProcesses.map((proc, idx) => (
@@ -216,14 +210,14 @@ export default function AboutPage() {
 
       {/* 3. Mid Banner (Mengapa IGRS Hadir?) */}
       <div className="w-full bg-slate-950/80 relative">
-        <PixelDivider />
+        <GrassDecoration />
         <div className="max-w-6xl mx-auto w-full px-4 md:px-12 py-16 flex flex-col gap-10 text-center items-center">
           <div className="flex flex-col items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-wider text-amber-500 font-heading">
-              SOLUSI NYATA
+              {t("about.hadir.label")}
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-white font-heading">
-              Mengapa IGRS Hadir?
+              {t("about.hadir.title")}
             </h2>
           </div>
 
@@ -246,7 +240,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-        <PixelDivider />
+        <GrassDecoration />
       </div>
 
       {/* 4. Bottom Section: Cara Klasifikasi Gim di IGRS */}
@@ -254,17 +248,17 @@ export default function AboutPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex flex-col gap-2 max-w-2xl">
             <span className="text-xs font-bold uppercase tracking-wider text-sky-400 font-heading">
-              PROSES KLASIFIKASI
+              {t("about.process.label")}
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white font-heading">
-              Cara Klasifikasi Gim di IGRS
+              {t("about.process.title")}
             </h2>
-            <p className="text-xs md:text-sm text-slate-350 leading-relaxed">
-              Proses klasifikasi dilakukan melalui sistem daring. Pengembang/publisher mengisi formulir, mengunggah cuplikan gim, dan menjawab kuesioner klasifikasi.
+            <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
+              {t("about.process.desc")}
             </p>
           </div>
           <Button className="bg-sky-600 hover:bg-sky-500 text-white font-semibold flex items-center gap-2 py-5 px-6 rounded-lg self-start shrink-0 cursor-pointer transition shadow-md border-none">
-            <Download className="size-4" /> Unduh Panduan IGRS
+            <Download className="size-4" /> {t("about.process.download")}
           </Button>
         </div>
 
@@ -294,7 +288,7 @@ export default function AboutPage() {
         <div className="bg-blue-950/40 border border-blue-900/60 rounded-xl p-4 flex items-start gap-3 mt-4">
           <Info className="size-5 text-sky-400 shrink-0 mt-0.5" />
           <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-normal">
-            Melalui proses klasifikasi ini, IGRS berupaya menciptakan lingkungan bermain yang aman, bertanggung jawab, dan selaras dengan nilai-nilai masyarakat Indonesia. Butuh bantuan? Silakan pelajari lebih lanjut di{" "}
+            {t("about.process.alert")}{" "}
             <a href="https://s.id/panduanIGRS" target="_blank" rel="noreferrer" className="text-sky-400 hover:underline font-semibold">
               s.id/panduanIGRS
             </a>

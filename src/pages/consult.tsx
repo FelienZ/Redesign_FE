@@ -130,7 +130,7 @@ export default function ConsultationPage() {
   return (
     <section className="bg-background min-h-screen text-slate-100 flex flex-col justify-between">
       {/* Header Banner */}
-      <div className="relative pt-28 pb-16 px-4 md:px-12 bg-linear-to-b from-blue-950/25 via-slate-900/10 to-transparent text-center overflow-hidden">
+      <div className="relative pt-12 pb-16 px-4 md:px-12 bg-linear-to-b from-blue-950/25 via-slate-900/10 to-transparent text-center overflow-hidden">
         <div className="max-w-4xl mx-auto flex flex-col items-center gap-4 relative z-10">
           <Badge className="bg-destructive/15 text-destructive border border-destructive/20 px-3 py-1 text-xs uppercase font-semibold tracking-wider flex items-center gap-1.5">
             <MessageSquare className="size-3.5" /> Layanan Konsultasi
@@ -232,7 +232,7 @@ export default function ConsultationPage() {
                   <Button
                     onClick={resetQuiz}
                     variant="outline"
-                    className="flex-1 border-slate-700 text-slate-300 hover:bg-slate-850 hover:text-white flex items-center gap-2 py-5"
+                    className="flex-1 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white flex items-center gap-2 py-5"
                   >
                     <RotateCcw className="size-4" /> Ulangi Evaluasi
                   </Button>

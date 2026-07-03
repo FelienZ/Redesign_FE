@@ -1,13 +1,16 @@
 import { Outlet } from "react-router";
 import Navbar from "@/layout/navbar";
+import { LanguageProvider } from "@/utils/LanguageContext";
 
 export default function Layout() {
   return (
-    <section className="bg-background">
-      <Navbar />
-      <article className="pt-5 min-h-screen">
-        <Outlet />
-      </article>
-    </section>
+    <LanguageProvider>
+      <section className="bg-background">
+        <Navbar />
+        <article className="min-h-screen pt-16">
+          <Outlet />
+        </article>
+      </section>
+    </LanguageProvider>
   );
 }

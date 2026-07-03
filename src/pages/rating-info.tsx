@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,14 +44,9 @@ interface DescriptorCard {
 export default function RatingInfoPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get("tab") || "3";
-  const [activeTab, setActiveTab] = useState<string>(tabParam);
-
-  useEffect(() => {
-    setActiveTab(tabParam);
-  }, [tabParam]);
+  const activeTab = tabParam;
 
   const handleTabSelect = (tabId: string) => {
-    setActiveTab(tabId);
     const newParams = new URLSearchParams(searchParams);
     newParams.set("tab", tabId);
     setSearchParams(newParams);
@@ -197,7 +191,7 @@ export default function RatingInfoPage() {
       label: "Konten Terlarang",
       colorClass: "bg-slate-700",
       borderClass: "border-slate-700",
-      textClass: "text-slate-350",
+      textClass: "text-slate-300",
       bgClass: "bg-slate-700/10",
       ageGuideline: "Regulasi Negara",
       summary: "Konten yang dilarang keras untuk dimuat dalam permainan interaktif elektronik yang beredar di wilayah hukum Republik Indonesia. Gim yang memuat konten ini tidak diperbolehkan rilis.",
@@ -247,7 +241,7 @@ export default function RatingInfoPage() {
       title: "Penampilan Tokoh",
       badges: ["15+", "18+"],
       icon: <User className="size-6 text-orange-400" />,
-      iconBgClass: "bg-orange-950/40 border-orange-850/40",
+      iconBgClass: "bg-orange-950/40 border-orange-800/40",
       description: "Gim menampilkan karakter dengan penampilan yang menonjolkan bagian tubuh tertentu atau busana yang tidak pantas.",
       advice: "Diskusikan dengan anak tentang standar penampilan yang realistis dan menghormati diri sendiri."
     },
@@ -321,7 +315,7 @@ export default function RatingInfoPage() {
   return (
     <section className="bg-background min-h-screen text-slate-100 flex flex-col justify-between">
       {/* 1. Header Banner */}
-      <div className="relative pt-28 pb-12 px-4 md:px-12 bg-linear-to-b from-blue-950/20 to-transparent">
+      <div className="relative pt-12 pb-12 px-4 md:px-12 bg-linear-to-b from-blue-950/20 to-transparent">
         <div className="max-w-6xl mx-auto flex flex-col gap-6 relative z-10">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-500 font-heading">
             ■■■ PANDUAN RATING
@@ -390,7 +384,7 @@ export default function RatingInfoPage() {
                 <h4 className="text-md font-bold text-slate-100 font-heading">
                   Apa itu Klasifikasi Konten?
                 </h4>
-                <p className="text-xs md:text-sm text-slate-350 leading-relaxed font-normal">
+                <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-normal">
                   Klasifikasi konten adalah <strong>label tambahan</strong> yang muncul di samping badge rating usia. Label ini menjelaskan jenis konten spesifik dalam gim — seperti kekerasan, bahasa kasar, atau simulasi judi — membantu orang tua membuat keputusan yang lebih tepat dan terinformasi.
                 </p>
               </div>
@@ -426,13 +420,13 @@ export default function RatingInfoPage() {
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-350 leading-relaxed font-normal">
+                    <p className="text-xs text-slate-300 leading-relaxed font-normal">
                       {desc.description}
                     </p>
                   </div>
 
                   {/* Parental Advice Note Box */}
-                  <div className="bg-slate-950/50 border border-slate-850 p-3 rounded-lg flex items-start gap-2 text-[11px] leading-relaxed text-slate-400 mt-4">
+                  <div className="bg-slate-950/50 border border-slate-800 p-3 rounded-lg flex items-start gap-2 text-[11px] leading-relaxed text-slate-400 mt-4">
                     <Lightbulb className="size-4 text-amber-500 shrink-0 mt-0.5" />
                     <span>{desc.advice}</span>
                   </div>
@@ -463,7 +457,7 @@ export default function RatingInfoPage() {
                 <Link to={`/search?rating=${currentTab.id}`} className="w-full">
                   <Button
                     variant="outline"
-                    className="w-full py-5 border-slate-800 text-slate-350 hover:bg-slate-850 hover:text-white flex items-center justify-center gap-2 cursor-pointer transition font-medium"
+                    className="w-full py-5 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white flex items-center justify-center gap-2 cursor-pointer transition font-medium"
                   >
                     Lihat Gim {currentTab.badgeText} <ArrowRight className="size-4 ml-1" />
                   </Button>

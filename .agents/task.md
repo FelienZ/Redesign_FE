@@ -1,0 +1,8 @@
+- [x] Create translation dictionary file `translations.ts`
+- [x] Create `LanguageContext.tsx` provider
+- [x] Wrap application with `<LanguageProvider>` in `layout.tsx`
+- [x] Create premium `AuthModal.tsx` containing login and register tabs
+- [x] Update `navbar.tsx` with English support, language selector dropdown, "Daftar" button, and bind modal toggles
+- [x] Localize `heroSection.tsx` content
+- [x] Localize `about.tsx` content
+- [ ] Verify everything compiles and looks premium in the browser
