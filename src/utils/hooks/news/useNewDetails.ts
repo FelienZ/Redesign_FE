@@ -1,9 +1,9 @@
 import { NewsServices } from "@/utils/services/newsServices";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useNewsDetail(){
+export default function useNewsDetail(slug: string){
     return useQuery({
-        queryKey: ['news'],
-        queryFn: ()=> NewsServices.getNewsDetail
+        queryKey: ['newsDetail', slug],
+        queryFn: () => NewsServices.getNewsDetail(slug)
     })
 }
