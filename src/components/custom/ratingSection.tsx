@@ -11,45 +11,51 @@ interface RatingMeta {
   title: string;
   desc: string;
   colorClass: string;
-  solidColor: string;
-  softColor: string;
+  solidBg: string;
+  outlinedBg: string;
+  borderColorHex: string;
 }
 
 const ratingMetadata: Record<number, RatingMeta> = {
   3: {
     title: "Semua Umur",
-    desc: "Gim yang sesuai untuk seluruh anggota keluarga tanpa adanya adegan kekerasan, kata kasar, atau materi dewasa.",
+    desc: "Gim dengan rating 3+ sesuai untuk usia semua umur. Perhatikan deskriptor konten sebelum memberikan akses kepada anak.",
     colorClass: "bg-[oklch(0.65_0.20_145)]",
-    solidColor: "text-[oklch(0.85_0.22_145)]",
-    softColor: "bg-[oklch(0.65_0.20_145)]/15"
+    solidBg: "bg-[oklch(0.65_0.20_145)] text-white border-transparent",
+    outlinedBg: "bg-transparent text-[oklch(0.65_0.20_145)] border-[oklch(0.65_0.20_145)]/30 hover:border-[oklch(0.65_0.20_145)]/75 hover:bg-[oklch(0.65_0.20_145)]/5",
+    borderColorHex: "oklch(0.65 0.20 145)"
   },
   7: {
     title: "Anak",
-    desc: "Gim yang boleh mengandung kekerasan fantasi ringan bergaya kartun. Cocok untuk anak usia 7 tahun ke atas.",
+    desc: "Gim dengan rating 7+ sesuai untuk usia anak. Perhatikan deskriptor konten sebelum memberikan akses kepada anak.",
     colorClass: "bg-[oklch(0.72_0.18_125)]",
-    solidColor: "text-[oklch(0.88_0.20_125)]",
-    softColor: "bg-[oklch(0.72_0.18_125)]/15"
+    solidBg: "bg-[oklch(0.72_0.18_125)] text-white border-transparent",
+    outlinedBg: "bg-transparent text-[oklch(0.72_0.18_125)] border-[oklch(0.72_0.18_125)]/30 hover:border-[oklch(0.72_0.18_125)]/75 hover:bg-[oklch(0.72_0.18_125)]/5",
+    borderColorHex: "oklch(0.72 0.18 125)"
   },
   13: {
     title: "Remaja",
-    desc: "Gim yang mengandung kekerasan tingkat sedang, bahasa tidak pantas ringan, atau tema remaja dengan pengawasan orang tua.",
+    desc: "Gim dengan rating 13+ sesuai untuk usia remaja. Perhatikan deskriptor konten sebelum memberikan akses kepada anak.",
     colorClass: "bg-[oklch(0.68_0.19_75)]",
-    solidColor: "text-[oklch(0.85_0.18_75)]",
-    softColor: "bg-[oklch(0.68_0.19_75)]/15"
+    solidBg: "bg-[oklch(0.68_0.19_75)] text-white border-transparent",
+    outlinedBg: "bg-transparent text-[oklch(0.68_0.19_75)] border-[oklch(0.68_0.19_75)]/30 hover:border-[oklch(0.68_0.19_75)]/75 hover:bg-[oklch(0.68_0.19_75)]/5",
+    borderColorHex: "oklch(0.68 0.19 75)"
   },
   15: {
     title: "Dewasa Muda",
-    desc: "Gim dengan konten kekerasan lebih nyata, bahasa kasar, dan tema cerita yang lebih kompleks bagi anak usia 15+ tahun.",
+    desc: "Gim dengan rating 15+ sesuai untuk usia dewasa muda. Perhatikan deskriptor konten sebelum memberikan akses kepada anak.",
     colorClass: "bg-[oklch(0.58_0.21_50)]",
-    solidColor: "text-[oklch(0.82_0.20_50)]",
-    softColor: "bg-[oklch(0.58_0.21_50)]/15"
+    solidBg: "bg-[oklch(0.58_0.21_50)] text-white border-transparent",
+    outlinedBg: "bg-transparent text-[oklch(0.58_0.21_50)] border-[oklch(0.58_0.21_50)]/30 hover:border-[oklch(0.58_0.21_50)]/75 hover:bg-[oklch(0.58_0.21_50)]/5",
+    borderColorHex: "oklch(0.58 0.21 50)"
   },
   18: {
     title: "Dewasa",
-    desc: "Gim khusus dewasa dengan konten kekerasan realistis, tema berat sensitif, atau simulasi perjudian fiksi.",
+    desc: "Gim dengan rating 18+ sesuai untuk usia dewasa. Perhatikan deskriptor konten sebelum memberikan akses kepada anak.",
     colorClass: "bg-[oklch(0.52_0.22_25)]",
-    solidColor: "text-[oklch(0.80_0.22_25)]",
-    softColor: "bg-[oklch(0.52_0.22_25)]/15"
+    solidBg: "bg-[oklch(0.52_0.22_25)] text-white border-transparent",
+    outlinedBg: "bg-transparent text-[oklch(0.52_0.22_25)] border-[oklch(0.52_0.22_25)]/30 hover:border-[oklch(0.52_0.22_25)]/75 hover:bg-[oklch(0.52_0.22_25)]/5",
+    borderColorHex: "oklch(0.52 0.22 25)"
   }
 };
 
@@ -102,69 +108,46 @@ export default function RatingSection() {
 
           {/* Horizontal Badge Selection Bar */}
           <div className="flex flex-wrap items-center gap-3">
-            <Badge
-              onClick={() => setActiveRating(3)}
-              className={`p-5 border cursor-pointer transition select-none flex items-center gap-1.5 font-semibold text-xs md:text-sm ${
-                activeRating === 3
-                  ? "bg-(--rating-3-solid) text-white border-transparent shadow-lg scale-105"
-                  : "bg-slate-900 text-slate-300 border-slate-800 hover:scale-105"
-              }`}
-            >
-              3+ <Minus className="size-3" /> Semua Umur
-            </Badge>
-            <Badge
-              onClick={() => setActiveRating(7)}
-              className={`p-5 border cursor-pointer transition select-none flex items-center gap-1.5 font-semibold text-xs md:text-sm ${
-                activeRating === 7
-                  ? "bg-(--rating-7-solid) text-white border-transparent shadow-lg scale-105"
-                  : "bg-slate-900 text-slate-300 border-slate-800 hover:scale-105"
-              }`}
-            >
-              7+ <Minus className="size-3" /> Anak
-            </Badge>
-            <Badge
-              onClick={() => setActiveRating(13)}
-              className={`p-5 border cursor-pointer transition select-none flex items-center gap-1.5 font-semibold text-xs md:text-sm ${
-                activeRating === 13
-                  ? "bg-(--rating-13-solid) text-white border-transparent shadow-lg scale-105"
-                  : "bg-slate-900 text-slate-300 border-slate-800 hover:scale-105"
-              }`}
-            >
-              13+ <Minus className="size-3" /> Remaja
-            </Badge>
-            <Badge
-              onClick={() => setActiveRating(15)}
-              className={`p-5 border cursor-pointer transition select-none flex items-center gap-1.5 font-semibold text-xs md:text-sm ${
-                activeRating === 15
-                  ? "bg-(--rating-15-solid) text-white border-transparent shadow-lg scale-105"
-                  : "bg-slate-900 text-slate-300 border-slate-800 hover:scale-105"
-              }`}
-            >
-              15+ <Minus className="size-3" /> Dewasa Muda
-            </Badge>
-            <Badge
-              onClick={() => setActiveRating(18)}
-              className={`p-5 border cursor-pointer transition select-none flex items-center gap-1.5 font-semibold text-xs md:text-sm ${
-                activeRating === 18
-                  ? "bg-(--rating-18-solid) text-white border-transparent shadow-lg scale-105"
-                  : "bg-slate-900 text-slate-300 border-slate-800 hover:scale-105"
-              }`}
-            >
-              18+ <Minus className="size-3" /> Dewasa
-            </Badge>
+            {(Object.keys(ratingMetadata) as unknown as Array<3 | 7 | 13 | 15 | 18>).map((rating) => {
+              const meta = ratingMetadata[rating];
+              const isActive = activeRating === rating;
+              return (
+                <button
+                  key={rating}
+                  onClick={() => setActiveRating(rating)}
+                  className={`px-5 py-3.5 rounded-lg border font-semibold text-xs md:text-sm transition-all duration-300 cursor-pointer select-none ${
+                    isActive
+                      ? `${meta.solidBg} shadow-md scale-105`
+                      : `${meta.outlinedBg}`
+                  }`}
+                >
+                  {rating === 3 && "3+ — Semua Umur"}
+                  {rating === 7 && "7+ — Anak"}
+                  {rating === 13 && "13+ — Remaja"}
+                  {rating === 15 && "15+ — Dewasa Muda"}
+                  {rating === 18 && "18+ — Dewasa"}
+                </button>
+              );
+            })}
           </div>
 
           {/* Dynamic Details Area */}
           <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-4">
             {/* Left Block: Dynamic Descriptor Preview */}
-            <div className="grid bg-accent p-4 place-content-start gap-5 py-5 rounded-lg border border-slate-800 lg:col-span-1">
+            <div 
+              className="grid bg-slate-950/40 p-6 place-content-start gap-5 py-6 rounded-xl border lg:col-span-1 shadow-inner transition-all duration-300"
+              style={{ borderColor: activeMeta.borderColorHex }}
+            >
               <div className="flex items-center gap-3">
                 <div className={`flex flex-col gap-0.5 p-2 px-3 text-center rounded select-none ${activeMeta.colorClass}`}>
                   <p className="font-pixel text-xl font-bold leading-none text-white">{activeRating}+</p>
                   <p className="text-[8px] font-bold tracking-wider leading-none text-slate-200">IGRS</p>
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-[10px] font-bold tracking-wider uppercase text-slate-500">
+                  <p 
+                    className="text-[10px] font-bold tracking-wider uppercase"
+                    style={{ color: activeMeta.borderColorHex }}
+                  >
                     Rating IGRS
                   </p>
                   <h3 className="font-extrabold text-lg text-slate-200 font-heading leading-tight">{activeMeta.title}</h3>
@@ -174,10 +157,11 @@ export default function RatingSection() {
                 {activeMeta.desc}
               </p>
               <Link
-                to={`/information?tab=${activeRating}`}
-                className="text-xs font-bold text-sky-400 hover:underline flex items-center gap-1 mt-4 hover:translate-x-1 transition duration-200"
+                to={`/search?rating=${activeRating}`}
+                className="text-xs font-bold flex items-center justify-center gap-1 mt-4 hover:underline transition duration-200"
+                style={{ color: activeMeta.borderColorHex }}
               >
-                Lihat Detail Rating {activeRating}+ &gt;
+                Lihat semua gim {activeRating}+ &gt;
               </Link>
             </div>
 
@@ -193,7 +177,8 @@ export default function RatingSection() {
                     <img
                       src={game.imageUrl}
                       alt={game.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full transition-transform duration-500 group-hover:scale-105"
+                      style={{ objectPosition: game.imagePosition || "center", objectFit: game.imageFit || "cover" }}
                     />
                     <div className={`absolute flex flex-col bottom-0 m-3 px-2 py-1 text-center text-sm font-semibold rounded select-none ${activeMeta.colorClass}`}>
                       <p className="font-pixel text-white text-base leading-none">{game.rating}+</p>

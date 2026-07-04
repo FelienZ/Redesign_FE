@@ -57,10 +57,46 @@ export default function Footer() {
         <div className="flex flex-col gap-4">
           <h4 className="font-bold text-slate-900">Institusi</h4>
           <ul className="flex flex-col gap-3 py-2 text-xs md:text-sm">
-            <li>KOMDIGI</li>
-            <li>Kemenpora</li>
-            <li>KPAI</li>
-            <li>BPOM</li>
+            <li>
+              <a
+                href="https://www.komdigi.go.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-slate-900 hover:underline"
+              >
+                KOMDIGI
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.kemenpora.go.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-slate-900 hover:underline"
+              >
+                Kemenpora
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.kpai.go.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-slate-900 hover:underline"
+              >
+                KPAI
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.pom.go.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-slate-900 hover:underline"
+              >
+                BPOM
+              </a>
+            </li>
           </ul>
         </div>
       </div>

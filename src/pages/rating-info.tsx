@@ -13,7 +13,10 @@ import {
   MessageSquare,
   Dices,
   Lightbulb,
-  AlertCircle
+  AlertCircle,
+  ChevronRight,
+  Shield,
+  Users
 } from "lucide-react";
 import Footer from "@/layout/footer";
 
@@ -26,6 +29,7 @@ interface RatingTab {
   borderClass: string;
   textClass: string;
   bgClass: string;
+  hoverBgClass: string;
   ageGuideline: string;
   summary: string;
   notAllowed: string[];
@@ -40,6 +44,23 @@ interface DescriptorCard {
   description: string;
   advice: string;
 }
+
+const getRatingGlowColor = (id: string) => {
+  switch (id) {
+    case "3":
+      return "rgba(102, 204, 153, 0.4)";
+    case "7":
+      return "rgba(153, 220, 102, 0.4)";
+    case "13":
+      return "rgba(220, 153, 102, 0.4)";
+    case "15":
+      return "rgba(200, 102, 102, 0.4)";
+    case "18":
+      return "rgba(180, 50, 50, 0.4)";
+    default:
+      return "rgba(148, 163, 184, 0.4)";
+  }
+};
 
 export default function RatingInfoPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -62,6 +83,7 @@ export default function RatingInfoPage() {
       borderClass: "border-[oklch(0.65_0.20_145)]",
       textClass: "text-[oklch(0.85_0.22_145)]",
       bgClass: "bg-[oklch(0.65_0.20_145)]/10",
+      hoverBgClass: "hover:bg-[oklch(0.65_0.20_145)]",
       ageGuideline: "Usia 3+ tahun",
       summary: "Gim dengan rating ini tidak mengandung konten yang berpotensi membahayakan bagi siapa pun. Orang tua dapat membiarkan anak bermain tanpa khawatir.",
       notAllowed: [
@@ -90,6 +112,7 @@ export default function RatingInfoPage() {
       borderClass: "border-[oklch(0.72_0.18_125)]",
       textClass: "text-[oklch(0.88_0.20_125)]",
       bgClass: "bg-[oklch(0.72_0.18_125)]/10",
+      hoverBgClass: "hover:bg-[oklch(0.72_0.18_125)]",
       ageGuideline: "Usia 7+ tahun",
       summary: "Gim ini boleh mengandung kekerasan ringan non-realistis seperti gaya kartun. Orang tua tetap disarankan mendampingi dan memantau waktu bermain anak.",
       notAllowed: [
@@ -117,6 +140,7 @@ export default function RatingInfoPage() {
       borderClass: "border-[oklch(0.68_0.19_75)]",
       textClass: "text-[oklch(0.85_0.18_75)]",
       bgClass: "bg-[oklch(0.68_0.19_75)]/10",
+      hoverBgClass: "hover:bg-[oklch(0.68_0.19_75)]",
       ageGuideline: "Usia 13+ tahun",
       summary: "Gim ini bisa mengandung kekerasan sedang, bahasa tidak pantas, atau tema dewasa ringan. Cocok untuk remaja namun tetap perlu pengawasan dari orang tua.",
       notAllowed: [
@@ -143,6 +167,7 @@ export default function RatingInfoPage() {
       borderClass: "border-[oklch(0.58_0.21_50)]",
       textClass: "text-[oklch(0.82_0.20_50)]",
       bgClass: "bg-[oklch(0.58_0.21_50)]/10",
+      hoverBgClass: "hover:bg-[oklch(0.58_0.21_50)]",
       ageGuideline: "Usia 15+ tahun",
       summary: "Gim ini mengandung konten yang lebih berat — kekerasan lebih nyata, bahasa kasar, atau tema dewasa. Tidak direkomendasikan untuk anak di bawah 15 tahun.",
       notAllowed: [
@@ -168,6 +193,7 @@ export default function RatingInfoPage() {
       borderClass: "border-[oklch(0.52_0.22_25)]",
       textClass: "text-[oklch(0.80_0.22_25)]",
       bgClass: "bg-[oklch(0.52_0.22_25)]/10",
+      hoverBgClass: "hover:bg-[oklch(0.52_0.22_25)]",
       ageGuideline: "Usia 18+ tahun",
       summary: "Gim ini mengandung konten dewasa yang tidak sesuai untuk anak dan remaja — termasuk kekerasan eksplisit, konten seksual, atau tema berat lainnya.",
       notAllowed: [
@@ -193,6 +219,7 @@ export default function RatingInfoPage() {
       borderClass: "border-slate-700",
       textClass: "text-slate-300",
       bgClass: "bg-slate-700/10",
+      hoverBgClass: "hover:bg-slate-700",
       ageGuideline: "Regulasi Negara",
       summary: "Konten yang dilarang keras untuk dimuat dalam permainan interaktif elektronik yang beredar di wilayah hukum Republik Indonesia. Gim yang memuat konten ini tidak diperbolehkan rilis.",
       notAllowed: [
@@ -213,6 +240,7 @@ export default function RatingInfoPage() {
       borderClass: "border-amber-600",
       textClass: "text-amber-500",
       bgClass: "bg-amber-600/10",
+      hoverBgClass: "hover:bg-amber-600",
       ageGuideline: "Deskriptor IGRS",
       summary: "Metode IGRS dalam mengelompokkan kandungan game berdasarkan 9 aspek penilai konten.",
       notAllowed: [],
@@ -335,7 +363,7 @@ export default function RatingInfoPage() {
                 onClick={() => handleTabSelect(tab.id)}
                 className={`flex items-center gap-2 pb-2.5 transition duration-200 cursor-pointer font-semibold relative text-xs md:text-sm ${
                   activeTab === tab.id
-                    ? "text-white"
+                    ? tab.textClass
                     : "text-slate-400 hover:text-slate-200"
                 }`}
               >
@@ -435,70 +463,95 @@ export default function RatingInfoPage() {
             </div>
           </div>
         ) : (
-          /* Standard Layout: 2 Columns for 3+, 7+, 13+, 15+, 18+, and Terlarang */
-          <div className="flex flex-col md:flex-row gap-10 animate-in fade-in duration-300">
-            {/* Left Column: Visual Badge Column */}
-            <div className="md:w-[30%] flex flex-col items-center gap-6">
-              <div
-                className={`w-44 h-44 rounded-xl flex flex-col items-center justify-center text-white font-heading font-extrabold text-3xl shadow-xl select-none ${currentTab.colorClass} border-4 border-white/10`}
+          /* Standard Layout: Premium 2-Column Mockup Layout */
+          <div className="flex flex-col lg:flex-row gap-10 animate-in fade-in duration-300 items-start">
+            {/* Left Column: Visual Badge Glass Card */}
+            <div 
+              className="w-full lg:w-[35%] flex flex-col items-center gap-6 p-8 rounded-3xl bg-slate-950/60 border bg-gradient-to-b from-slate-900/60 to-slate-950/80 transition duration-300 relative overflow-hidden"
+              style={{
+                borderColor: getRatingGlowColor(currentTab.id).replace("0.4", "0.2"),
+                boxShadow: `0 10px 40px -10px ${getRatingGlowColor(currentTab.id).replace("0.4", "0.08")}`
+              }}
+            >
+              {/* Glowing Box Badge */}
+              <div 
+                className="w-48 h-48 rounded-3xl border-2 border-dashed flex items-center justify-center relative p-3"
+                style={{ borderColor: getRatingGlowColor(currentTab.id).replace("0.4", "0.25") }}
               >
-                <span className="font-pixel text-6xl leading-none">{currentTab.badgeLetter}</span>
-                <span className="text-sm font-bold tracking-wider leading-none mt-1">IGRS</span>
+                <div 
+                  className={`w-40 h-40 rounded-2xl flex flex-col items-center justify-center text-white ${currentTab.colorClass} border-4 border-white/10 select-none transition`}
+                  style={{ boxShadow: `0 0 35px ${getRatingGlowColor(currentTab.id)}` }}
+                >
+                  <span className="font-pixel text-6xl leading-none font-extrabold">{currentTab.badgeLetter}</span>
+                  <span className="text-[10px] font-extrabold tracking-widest leading-none mt-1.5 opacity-90">IGRS</span>
+                </div>
               </div>
 
-              <div className="flex flex-col items-center text-center gap-1.5">
-                <h3 className="text-xl font-bold text-slate-100 font-heading">{currentTab.label}</h3>
-                <span className={`text-xs font-bold ${currentTab.textClass}`}>
+              {/* Title & Age Info */}
+              <div className="flex flex-col items-center text-center gap-2">
+                <h3 className="text-2xl font-extrabold text-slate-100 font-heading">{currentTab.label}</h3>
+                <span className={`text-sm font-extrabold tracking-wider ${currentTab.textClass}`}>
                   {currentTab.ageGuideline}
                 </span>
+                <span 
+                  className="w-12 h-1 rounded-full mt-1.5"
+                  style={{ backgroundColor: getRatingGlowColor(currentTab.id).replace("0.4", "1") }}
+                />
               </div>
 
+              {/* Summary Text */}
+              <p className="text-xs md:text-sm text-slate-400 leading-relaxed text-center font-normal px-2">
+                {currentTab.summary}
+              </p>
+
+              {/* Button */}
               {activeTab !== "terlarang" && (
-                <Link to={`/search?rating=${currentTab.id}`} className="w-full">
+                <Link to={`/search?rating=${currentTab.id}`} className="w-full mt-2">
                   <Button
                     variant="outline"
-                    className="w-full py-5 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white flex items-center justify-center gap-2 cursor-pointer transition font-medium"
+                    className={`w-full py-6 bg-slate-900/35 hover:text-white flex items-center justify-between px-6 cursor-pointer transition rounded-2xl font-bold border ${currentTab.borderClass} ${currentTab.textClass} ${currentTab.hoverBgClass}`}
                   >
-                    Lihat Gim {currentTab.badgeText} <ArrowRight className="size-4 ml-1" />
+                    <div className="flex items-center gap-2">
+                      <Shield className="size-5 shrink-0" />
+                      <span>Lihat GIM {currentTab.badgeText}</span>
+                    </div>
+                    <ChevronRight className="size-5" />
                   </Button>
                 </Link>
               )}
             </div>
 
-            {/* Right Column: Detailed Lists */}
-            <div className="md:w-[70%] flex flex-col gap-6">
-              {/* Card 1: Summary Bordered Box */}
-              <div
-                className={`p-6 rounded-xl border ${currentTab.bgClass}`}
-                style={{
-                  borderColor:
-                    currentTab.id === "3"
-                      ? "rgba(102, 204, 153, 0.3)"
-                      : currentTab.id === "7"
-                        ? "rgba(153, 220, 102, 0.3)"
-                        : currentTab.id === "13"
-                          ? "rgba(220, 153, 102, 0.3)"
-                          : currentTab.id === "15"
-                            ? "rgba(200, 102, 102, 0.3)"
-                            : currentTab.id === "18"
-                              ? "rgba(180, 50, 50, 0.3)"
-                              : "rgba(148, 163, 184, 0.3)"
-                }}
-              >
-                <p className="text-xs md:text-sm text-slate-200 leading-relaxed font-normal">
-                  {currentTab.summary}
-                </p>
+            {/* Right Column: Content Grid (Konten Dalam Gim) */}
+            <div className="w-full lg:w-[65%] flex flex-col gap-6">
+              {/* Header Title with Separator */}
+              <div className="flex items-center justify-center gap-4 mb-2">
+                <div className="h-[2px] w-16 bg-gradient-to-r from-transparent to-amber-500/60 relative flex items-center justify-end">
+                  <span className="w-1.5 h-1.5 rotate-45 bg-amber-500" />
+                </div>
+                <h3 className="font-extrabold tracking-widest text-xs md:text-sm uppercase text-slate-200 font-heading">
+                  KONTEN DALAM GIM
+                </h3>
+                <div className="h-[2px] w-16 bg-gradient-to-l from-transparent to-amber-500/60 relative flex items-center justify-start">
+                  <span className="w-1.5 h-1.5 rotate-45 bg-amber-500" />
+                </div>
               </div>
 
-              {/* Card 2: Konten tidak diperbolehkan */}
+              {/* 1. Card: Konten tidak diperbolehkan */}
               {currentTab.notAllowed.length > 0 && (
-                <div className="bg-slate-900/40 border border-slate-800/80 rounded-xl p-6 shadow-lg">
-                  <h4 className="text-xs font-bold text-red-500 uppercase tracking-wider flex items-center gap-2 mb-4">
-                    <span className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Konten tidak diperbolehkan
-                  </h4>
-                  <div className="flex flex-col gap-3">
+                <div className="border border-red-500/20 bg-red-950/5 rounded-3xl p-6 flex flex-col md:flex-row gap-6 items-center md:items-start transition duration-300 hover:border-red-500/30">
+                  {/* Left Icon Badge */}
+                  <div className="flex flex-col items-center gap-3 shrink-0 w-36 text-center">
+                    <div className="w-14 h-14 rounded-2xl bg-red-950/45 border border-red-500/25 flex items-center justify-center text-red-500 shadow-[0_0_20px_rgba(239,68,68,0.12)] transform rotate-45 transition hover:scale-105 duration-200">
+                      <X className="size-6 -rotate-45" />
+                    </div>
+                    <span className="text-xs font-extrabold tracking-wide leading-tight text-slate-300 font-heading mt-1">
+                      Konten tidak diperbolehkan
+                    </span>
+                  </div>
+                  {/* Right Items List */}
+                  <div className="flex-1 flex flex-col gap-3 justify-center md:border-l md:border-slate-800/80 md:pl-6 w-full">
                     {currentTab.notAllowed.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs md:text-sm text-slate-400 font-medium">
+                      <div key={idx} className="flex items-start gap-3 text-xs md:text-sm text-slate-400 font-medium">
                         <X className="size-4 text-red-500 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
@@ -507,19 +560,47 @@ export default function RatingInfoPage() {
                 </div>
               )}
 
-              {/* Card 3: Konten diperbolehkan */}
+              {/* 2. Card: Konten diperbolehkan */}
               {currentTab.allowed.length > 0 && (
-                <div className="bg-slate-900/40 border border-slate-800/80 rounded-xl p-6 shadow-lg">
-                  <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2 mb-4">
-                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" /> Konten diperbolehkan
-                  </h4>
-                  <div className="flex flex-col gap-3">
+                <div className="border border-emerald-500/20 bg-emerald-950/5 rounded-3xl p-6 flex flex-col md:flex-row gap-6 items-center md:items-start transition duration-300 hover:border-emerald-500/30">
+                  {/* Left Icon Badge */}
+                  <div className="flex flex-col items-center gap-3 shrink-0 w-36 text-center">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-950/45 border border-emerald-500/25 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.12)] transform rotate-45 transition hover:scale-105 duration-200">
+                      <Check className="size-6 -rotate-45" />
+                    </div>
+                    <span className="text-xs font-extrabold tracking-wide leading-tight text-slate-300 font-heading mt-1">
+                      Konten diperbolehkan
+                    </span>
+                  </div>
+                  {/* Right Items List */}
+                  <div className="flex-1 flex flex-col gap-3 justify-center md:border-l md:border-slate-800/80 md:pl-6 w-full">
                     {currentTab.allowed.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs md:text-sm text-slate-400 font-medium">
+                      <div key={idx} className="flex items-start gap-3 text-xs md:text-sm text-slate-400 font-medium">
                         <Check className="size-4 text-emerald-400 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 3. Card: Pengawasan Orang Tua */}
+              {activeTab !== "terlarang" && (
+                <div className="border border-blue-500/20 bg-blue-950/5 rounded-3xl p-6 flex flex-col md:flex-row gap-6 items-center md:items-start transition duration-300 hover:border-blue-500/30">
+                  {/* Left Icon Badge */}
+                  <div className="flex flex-col items-center shrink-0 w-36 text-center">
+                    <div className="w-14 h-14 rounded-2xl bg-blue-950/45 border border-blue-500/25 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.12)] transform rotate-45 transition hover:scale-105 duration-200">
+                      <Users className="size-6 -rotate-45" />
+                    </div>
+                  </div>
+                  {/* Right Description */}
+                  <div className="flex-1 flex flex-col gap-1.5 md:border-l md:border-slate-800/80 md:pl-6 w-full">
+                    <h4 className="text-sm font-extrabold text-blue-400 uppercase tracking-wider font-heading">
+                      Pengawasan Orang Tua
+                    </h4>
+                    <p className="text-xs md:text-sm text-slate-400 leading-relaxed font-normal">
+                      Kami menyarankan orang tua untuk memahami konten gim yang dimainkan anak serta berdiskusi bersama tentang pengalaman bermain mereka.
+                    </p>
                   </div>
                 </div>
               )}

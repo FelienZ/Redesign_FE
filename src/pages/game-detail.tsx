@@ -80,54 +80,63 @@ export default function GameDetailPage() {
   return (
     <section className="bg-background min-h-screen text-slate-100 flex flex-col justify-between">
       {/* Detail Header Banner */}
-      <div className="relative pt-8 pb-12 px-4 md:px-12 overflow-hidden bg-slate-950/80">
-        {/* Background Image Blurred for Premium Look */}
+      <div className="relative min-h-[380px] md:min-h-[500px] w-full overflow-hidden flex flex-col justify-between">
+        
+        {/* Background Image (Cover, sharp, unblurred) */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-25 blur-xl scale-110 pointer-events-none"
-          style={{ backgroundImage: `url(${game.imageUrl})` }}
+          className="absolute inset-0 bg-cover bg-center pointer-events-none transition-all duration-500 contrast-[1.02] brightness-[1.05]"
+          style={{ 
+            backgroundImage: `url("${game.bgImageUrl || game.imageUrl}")`,
+          }}
         />
-        {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent pointer-events-none" />
+        
+        {/* Subtle bottom gradient overlay for title legibility, keeping the rest of the illustration fully clear and bright */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent pointer-events-none" />
 
-        {/* Content Container */}
-        <div className="relative max-w-7xl mx-auto w-full flex flex-col gap-6 z-10">
-          {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-xs md:text-sm text-slate-400">
-            <button
-              onClick={() => navigate(-1)}
-              className="hover:text-white transition flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 text-slate-400 font-sans"
-            >
-              <ArrowLeft className="size-3" /> Kembali
-            </button>
-            <span>/</span>
-            <span className="text-slate-200 font-semibold truncate max-w-xs">{game.title}</span>
-          </nav>
+        {/* Top Navbar */}
+        <div className="relative z-10 w-full bg-slate-950/50 backdrop-blur-xs border-b border-white/5 py-4 px-4 md:px-12">
+          <div className="max-w-7xl mx-auto w-full">
+            <nav className="flex items-center gap-2 text-xs md:text-sm text-slate-400">
+              <button
+                onClick={() => navigate(-1)}
+                className="hover:text-white transition flex items-center gap-1.5 cursor-pointer bg-transparent border-none p-0 text-slate-400 font-semibold font-sans"
+              >
+                <ArrowLeft className="size-3.5" /> Kembali
+              </button>
+              <span className="text-slate-600">/</span>
+              <span className="text-slate-200 font-semibold truncate max-w-xs">{game.title}</span>
+            </nav>
+          </div>
+        </div>
 
-          {/* Banner Hero Section */}
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center mt-4">
-            {/* Large Rating Square */}
-            <div className={`w-24 h-24 shrink-0 rounded-xl flex flex-col items-center justify-center text-white font-bold shadow-2xl ${getRatingColor(game.rating)} border-2 border-white/20 select-none`}>
+        {/* Game Title & Metadata Overlay (At the bottom of the banner) */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-12 pb-8 pt-20 mt-auto">
+          <div className="flex flex-col sm:flex-row gap-5 md:gap-6 items-start sm:items-end">
+            
+            {/* Large Rating Square Badge */}
+            <div className={`w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-2xl flex flex-col items-center justify-center text-white font-bold shadow-2xl ${getRatingColor(game.rating)} border-4 border-white/10 select-none`}>
               <span className="font-pixel text-4xl leading-none">{game.rating}+</span>
-              <span className="text-xs font-bold tracking-wider leading-none mt-1">IGRS</span>
+              <span className="text-[10px] font-extrabold tracking-widest leading-none mt-1.5">IGRS</span>
             </div>
 
             {/* Game Main Metadata */}
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <span className={`text-xs font-semibold px-3 py-1 rounded bg-orange-600/90 text-white border border-white/10 uppercase`}>
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`text-[10px] md:text-xs font-bold px-2.5 py-0.5 rounded border border-orange-500/30 bg-orange-950/40 text-orange-400`}>
                   {game.ratingLabel}
                 </span>
-                <span className="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-200 border border-slate-700/50 uppercase">
+                <span className="text-[10px] md:text-xs font-bold px-2.5 py-0.5 rounded border border-slate-700/40 bg-slate-900/40 text-slate-300">
                   {game.genre}
                 </span>
               </div>
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight font-heading">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight font-heading">
                 {game.title}
               </h2>
-              <p className="text-sm md:text-base text-slate-300 font-medium">
-                {game.publisher} <span className="text-slate-500 mx-1.5">·</span> {game.releaseYear}
+              <p className="text-xs md:text-sm text-slate-400 font-semibold uppercase tracking-wide">
+                {game.publisher} <span className="text-slate-600 mx-1.5">·</span> {game.releaseYear}
               </p>
             </div>
+
           </div>
         </div>
       </div>

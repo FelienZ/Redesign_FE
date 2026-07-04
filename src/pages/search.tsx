@@ -245,7 +245,8 @@ export default function SearchPage() {
                       <img
                         src={game.imageUrl}
                         alt={game.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+                        style={{ objectPosition: game.imagePosition || "center", objectFit: game.imageFit || "cover" }}
                       />
                       <div className="absolute right-3 top-3 rounded border border-white/10 bg-black/60 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-xs">
                         {game.genre}

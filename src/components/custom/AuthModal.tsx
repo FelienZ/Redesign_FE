@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Lock, Mail, User, Shield, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +49,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = "login" }: Aut
     onClose();
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md transition-all duration-300">
       {/* Modal Container */}
       <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-800 bg-slate-950/90 p-8 shadow-2xl text-slate-200 animate-in fade-in zoom-in-95 duration-200">
@@ -266,6 +267,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = "login" }: Aut
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
