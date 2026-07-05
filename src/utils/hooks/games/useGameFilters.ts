@@ -5,23 +5,23 @@ import { useQuery } from "@tanstack/react-query";
 export default function useGameFilters(){
     const genres = useQuery({
         queryKey: ['Genres'],
-        queryFn: ()=> GameServices.getGenres
+        queryFn: GameServices.getGenres
     })
     const publishers = useQuery({
         queryKey: ['Publishers'],
-        queryFn: ()=> GameServices.getPublishers
+        queryFn: GameServices.getPublishers
     })
     const platforms = useQuery({
         queryKey: ['Platforms'],
-        queryFn: ()=> GameServices.getPlatforms
+        queryFn: GameServices.getPlatforms
     })
     const developers = useQuery({
         queryKey: ['Developers'],
-        queryFn: ()=> GameServices.getDevelopers
+        queryFn: GameServices.getDevelopers
     })
     const ratings = useQuery({
         queryKey: ['Ratings'],
-        queryFn: ()=> GameServices.getRatings
+        queryFn: GameServices.getRatings
     })
 
     return {
