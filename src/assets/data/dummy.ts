@@ -43,31 +43,36 @@ export const dummyList = [
 
 export const dummyRating = [
     {
-        "rating": "3+",
+        "minimumAge": "3",
+        "label": "Semua Umur",
         "count" : 3794,
         "description" : "Jumlah Permainan Rating Usia 3 Tahun Keatas",
         "backgroundColor": "bg-(--rating-3-solid)"
     },
     {
-        "rating": "7+",
+        "minimumAge": "7",
+        "label": "Anak",
         "count" : 17,
         "description" : "Jumlah Permainan Rating Usia 7 Tahun Keatas",
         "backgroundColor": "bg-(--rating-7-solid)"
     },
     {
-        "rating": "13+",
+        "minimumAge": "13",
+        "label": "Remaja",
         "count" : 2591,
         "description" : "Jumlah Permainan Rating Usia 13 Tahun Keatas",
         "backgroundColor": "bg-(--rating-13-solid)"
     },
     {
-        "rating": "15+",
+        "minimumAge": "15",
+        "label": "Dewasa Muda",
         "count" : 298,
         "description" : "Jumlah Permainan Rating Usia 15 Tahun Keatas",
         "backgroundColor": "bg-(--rating-15-solid)"
     },
     {
-        "rating": "18+",
+        "minimumAge": "18",
+        "label": "Dewasa",
         "count" : 1486,
         "description" : "Jumlah Permainan Rating Usia 18 Tahun Keatas",
         "backgroundColor": "bg-(--rating-18-solid)"
