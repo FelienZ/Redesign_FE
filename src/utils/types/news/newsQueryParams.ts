@@ -6,7 +6,7 @@ export const NewsSortBy =  {
 
 export type GamesSortByType = typeof NewsSortBy[keyof typeof NewsSortBy]
 
-export interface NewsQueryParams {
+export interface GetNewsQueryParams {
   //filtering page & keyword
   page?: number;
   limit?: number;
@@ -18,3 +18,4 @@ export interface NewsQueryParams {
   featured?: boolean;
   sortBy?: string;
 }
+
