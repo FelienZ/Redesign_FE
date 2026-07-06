@@ -47,7 +47,7 @@ export default function RatingSection() {
           <GameStatsSkeleton />
         ) : (
           <div
-            className={`grid grid-cols-${ratings.length - 2} gap-4 sm:grid-cols-${ratings.length - 3} lg:grid-cols-${ratings.length}`}
+            className={`grid grid-cols-${ratings.length - 4} md:grid-cols-${ratings.length - 3} gap-4 lg:grid-cols-${ratings.length}`}
           >
             {ratings.map((i) => {
               const ratingNum = parseInt(getCleanRatingStr(i.minimumAge || 3));

@@ -82,15 +82,27 @@ export default function NewsDetailPage() {
                 <span className="flex items-center gap-1.5 font-medium">
                   <CalendarDays className="size-4 text-slate-500" />
                   {new Date(article.createdAt).toLocaleDateString("id-ID", {
+                    weekday: "long",
                     day: "numeric",
                     month: "long",
                     year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
                   })}
                 </span>
                 <span className="flex items-center gap-1.5 font-medium">
                   <Clock className="size-4 text-slate-500" />
                   Diperbarui:{" "}
-                  {new Date(article.updatedAt).toLocaleDateString("id-ID")}
+                  {new Date(article.updatedAt).toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })}
                 </span>
               </div>
             </div>
