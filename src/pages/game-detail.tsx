@@ -1,5 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router";
 import { gamesData } from "@/assets/data/games";
+import useGame from "@/utils/hooks/games/useGame";
+import { useLanguage } from "@/utils/LanguageContext";
 import {
   Calendar,
   Gamepad2,
@@ -17,13 +19,41 @@ import Footer from "@/layout/footer";
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { language } = useLanguage();
 
-  // Find game by ID
-  const game = gamesData.find((g) => g.id === parseInt(id || "1")) || gamesData[0];
+  // Fetch game from API by slug (where id parameter is the slug)
+  const { data: gameResponse } = useGame(id || "");
+  const apiGame = gameResponse?.data;
+
+  // Map database structure to component fields
+  const mappedGame = apiGame ? {
+    id: apiGame.id,
+    slug: apiGame.slug,
+    title: apiGame.title,
+    publisher: apiGame.publisher?.name || "Publisher Resmi",
+    developer: apiGame.gameDevelopers?.[0]?.name || "Developer",
+    releaseYear: apiGame.releaseDate ? new Date(apiGame.releaseDate).getFullYear() : 2024,
+    rating: apiGame.rating?.minimumAge || 3,
+    ratingLabel: language === "ID" 
+      ? (apiGame.rating?.label || "Semua Umur") 
+      : (apiGame.rating?.minimumAge === 3 ? "All Ages" : apiGame.rating?.minimumAge === 7 ? "Children" : apiGame.rating?.minimumAge === 13 ? "Teens" : apiGame.rating?.minimumAge === 15 ? "Young Adults" : "Adults"),
+    genre: apiGame.gameGenres?.[0]?.name || "General",
+    platforms: apiGame.gamePlatforms?.map((p: any) => p.name) || [],
+    descriptors: apiGame.gameTags?.map((t: any) => t.name) || [],
+    description: apiGame.description || "",
+    fullDescription: apiGame.rating?.description || apiGame.description || "",
+    imageUrl: apiGame.thumbnailUrl || "/Minecraft bg.jpg",
+    bgImageUrl: apiGame.bannerUrl || apiGame.thumbnailUrl || "/Minecraft bg.jpg",
+    viewers: apiGame.viewCount || 0,
+    features: apiGame.gameTags?.map((t: any) => t.name) || [],
+  } : null;
+
+  // Find game by ID or slug or fallback to default
+  const game = mappedGame || gamesData.find((g) => g.id === parseInt(id || "1")) || gamesData[0];
 
   // Similar games (same rating, different ID)
   const similarGames = gamesData
-    .filter((g) => g.rating === game.rating && g.id !== game.id)
+    .filter((g) => g.rating === game.rating && String(g.id) !== String(game.id))
     .slice(0, 2);
 
   const getRatingColor = (rating: number) => {
@@ -44,36 +74,70 @@ export default function GameDetailPage() {
   };
 
   const getRatingText = (rating: number) => {
-    switch (rating) {
-      case 3:
-        return "Semua Umur";
-      case 7:
-        return "Anak";
-      case 13:
-        return "Remaja";
-      case 15:
-        return "Dewasa Muda";
-      case 18:
-        return "Dewasa";
-      default:
-        return "";
+    if (language === "ID") {
+      switch (rating) {
+        case 3:
+          return "Semua Umur";
+        case 7:
+          return "Anak";
+        case 13:
+          return "Remaja";
+        case 15:
+          return "Dewasa Muda";
+        case 18:
+          return "Dewasa";
+        default:
+          return "";
+      }
+    } else {
+      switch (rating) {
+        case 3:
+          return "All Ages";
+        case 7:
+          return "Children";
+        case 13:
+          return "Teens";
+        case 15:
+          return "Young Adults";
+        case 18:
+          return "Adults";
+        default:
+          return "";
+      }
     }
   };
 
   const getRatingExplanation = (rating: number) => {
-    switch (rating) {
-      case 3:
-        return "Sesuai untuk semua umur. Tidak mengandung kekerasan, bahasa kasar, pornografi, atau materi dewasa lainnya.";
-      case 7:
-        return "Sesuai untuk anak usia 7 tahun ke atas. Bisa mengandung kekerasan ringan yang tidak realistis (kartun) dan tidak memicu ketakutan.";
-      case 13:
-        return "Sesuai untuk remaja 13 tahun ke atas. Bisa mengandung kekerasan sedang, penggunaan bahasa tidak pantas tingkat sedang, dan interaksi online.";
-      case 15:
-        return "Sesuai untuk dewasa muda 15 tahun ke atas. Bisa mengandung kekerasan yang lebih eksplisit, bahasa kasar yang lebih intens, dan interaksi online yang luas.";
-      case 18:
-        return "Sesuai untuk dewasa berusia 18 tahun ke atas. Bisa mengandung kekerasan intens, tema dewasa, bahasa kasar tingkat tinggi, dan simulasi judi.";
-      default:
-        return "";
+    if (language === "ID") {
+      switch (rating) {
+        case 3:
+          return "Sesuai untuk semua umur. Tidak mengandung kekerasan, bahasa kasar, pornografi, atau materi dewasa lainnya.";
+        case 7:
+          return "Sesuai untuk anak usia 7 tahun ke atas. Bisa mengandung kekerasan ringan yang tidak realistis (kartun) dan tidak memicu ketakutan.";
+        case 13:
+          return "Sesuai untuk remaja 13 tahun ke atas. Bisa mengandung kekerasan sedang, penggunaan bahasa tidak pantas tingkat sedang, dan interaksi online.";
+        case 15:
+          return "Sesuai untuk dewasa muda 15 tahun ke atas. Bisa mengandung kekerasan yang lebih eksplisit, bahasa kasar yang lebih intens, dan interaksi online yang luas.";
+        case 18:
+          return "Sesuai untuk dewasa berusia 18 tahun ke atas. Bisa mengandung kekerasan intens, tema dewasa, bahasa kasar tingkat tinggi, dan simulasi judi.";
+        default:
+          return "";
+      }
+    } else {
+      switch (rating) {
+        case 3:
+          return "Suitable for all ages. Contains no violence, bad language, pornography, or other adult materials.";
+        case 7:
+          return "Suitable for children aged 7 and above. May contain mild, non-realistic violence (cartoon) and is not scary.";
+        case 13:
+          return "Suitable for teenagers aged 13 and above. May contain moderate violence, moderate crude language, and online interaction.";
+        case 15:
+          return "Suitable for young adults aged 15 and above. May contain more explicit violence, more intense bad language, and broad online interaction.";
+        case 18:
+          return "Suitable for adults aged 18 and above. May contain intense violence, adult themes, high-level bad language, and simulated gambling.";
+        default:
+          return "";
+      }
     }
   };
 
@@ -101,7 +165,7 @@ export default function GameDetailPage() {
                 onClick={() => navigate(-1)}
                 className="hover:text-white transition flex items-center gap-1.5 cursor-pointer bg-transparent border-none p-0 text-slate-400 font-semibold font-sans"
               >
-                <ArrowLeft className="size-3.5" /> Kembali
+                <ArrowLeft className="size-3.5" /> {language === "ID" ? "Kembali" : "Back"}
               </button>
               <span className="text-slate-600">/</span>
               <span className="text-slate-200 font-semibold truncate max-w-xs">{game.title}</span>
@@ -148,7 +212,7 @@ export default function GameDetailPage() {
           {/* Section 1: Tentang Gim Ini */}
           <div className="bg-slate-900/30 border border-slate-800/80 rounded-xl p-6 shadow-md">
             <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2 border-l-4 border-destructive pl-3 mb-4 font-heading">
-              Tentang Gim Ini
+              {language === "ID" ? "Tentang Gim Ini" : "About This Game"}
             </h3>
             <p className="text-sm md:text-base text-slate-300 leading-relaxed font-normal">
               {game.fullDescription}
@@ -158,7 +222,7 @@ export default function GameDetailPage() {
           {/* Section 2: Informasi Gim Grid */}
           <div className="bg-slate-900/30 border border-slate-800/80 rounded-xl p-6 shadow-md">
             <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2 border-l-4 border-destructive pl-3 mb-4 font-heading">
-              Informasi Gim
+              {language === "ID" ? "Informasi Gim" : "Game Info"}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-lg flex flex-col gap-1.5">
@@ -169,7 +233,7 @@ export default function GameDetailPage() {
               </div>
               <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-lg flex flex-col gap-1.5">
                 <span className="text-xs text-slate-500 uppercase tracking-wider flex items-center gap-1 font-semibold">
-                  <Calendar className="size-3 text-destructive" /> Tahun Rilis
+                  <Calendar className="size-3 text-destructive" /> {language === "ID" ? "Tahun Rilis" : "Release Year"}
                 </span>
                 <span className="text-sm font-bold text-slate-200">{game.releaseYear}</span>
               </div>
@@ -181,7 +245,7 @@ export default function GameDetailPage() {
               </div>
               <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-lg flex flex-col gap-1.5">
                 <span className="text-xs text-slate-500 uppercase tracking-wider flex items-center gap-1 font-semibold">
-                  <Eye className="size-3 text-destructive" /> Dilihat
+                  <Eye className="size-3 text-destructive" /> {language === "ID" ? "Dilihat" : "Views"}
                 </span>
                 <span className="text-sm font-bold text-slate-200">{game.viewers.toLocaleString()}x</span>
               </div>
@@ -194,7 +258,7 @@ export default function GameDetailPage() {
               Platform
             </h3>
             <div className="flex flex-wrap gap-3">
-              {game.platforms.map((platform) => (
+              {game.platforms.map((platform: string) => (
                 <div
                   key={platform}
                   className="bg-slate-950/55 border border-slate-800 px-5 py-3 rounded-lg flex items-center gap-2 font-semibold text-sm hover:border-slate-700 transition"
@@ -213,13 +277,13 @@ export default function GameDetailPage() {
           {/* Section 4: Content Descriptors */}
           <div className="bg-slate-900/30 border border-slate-800/80 rounded-xl p-6 shadow-md">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-l-4 border-destructive pl-3 mb-4">
-              <h3 className="text-lg font-bold text-slate-100 font-heading">Deskriptor Konten</h3>
+              <h3 className="text-lg font-bold text-slate-100 font-heading">{language === "ID" ? "Deskriptor Konten" : "Content Descriptors"}</h3>
               <span className="text-xs md:text-sm text-slate-400 font-medium">
-                Mengapa gim ini mendapat rating {game.rating}+?
+                {language === "ID" ? `Mengapa gim ini mendapat rating ${game.rating}+?` : `Why did this game get a ${game.rating}+ rating?`}
               </span>
             </div>
             <div className="flex flex-wrap gap-3 mt-4">
-              {game.descriptors.map((desc) => (
+              {game.descriptors.map((desc: string) => (
                 <span
                   key={desc}
                   className="text-xs md:text-sm text-destructive border-2 border-destructive/30 bg-destructive/5 px-4 py-2 rounded-lg font-semibold tracking-wide"
@@ -245,7 +309,7 @@ export default function GameDetailPage() {
               </div>
               <div className="flex flex-col">
                 <span className="text-md font-bold text-slate-200">{getRatingText(game.rating)}</span>
-                <span className="text-xs text-slate-500 font-medium">Usia {game.rating}+ ke atas</span>
+                <span className="text-xs text-slate-500 font-medium">{language === "ID" ? `Usia ${game.rating}+ ke atas` : `Age ${game.rating}+ and above`}</span>
               </div>
             </div>
             <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-normal bg-slate-950/20 p-3 rounded-lg border border-slate-900">
@@ -256,7 +320,7 @@ export default function GameDetailPage() {
           {/* Sidebar Box 2: Ringkasan Table */}
           <div className="bg-slate-900/60 border border-slate-800/80 rounded-xl p-5 shadow-lg">
             <h4 className="text-xs uppercase tracking-wider text-slate-400 font-bold mb-4 flex items-center gap-1.5">
-              <Info className="size-4 text-destructive" /> Ringkasan
+              <Info className="size-4 text-destructive" /> {language === "ID" ? "Ringkasan" : "Summary"}
             </h4>
             <div className="flex flex-col text-xs md:text-sm">
               <div className="flex justify-between py-2.5 border-b border-slate-800">
@@ -268,16 +332,16 @@ export default function GameDetailPage() {
                 <span className="font-semibold text-slate-200">{game.publisher}</span>
               </div>
               <div className="flex justify-between py-2.5 border-b border-slate-800">
-                <span className="text-slate-400 font-medium">Tahun Rilis</span>
+                <span className="text-slate-400 font-medium">{language === "ID" ? "Tahun Rilis" : "Release Year"}</span>
                 <span className="font-semibold text-slate-200">{game.releaseYear}</span>
               </div>
               <div className="flex justify-between py-2.5 border-b border-slate-800">
-                <span className="text-slate-400 font-medium">Total Platform</span>
-                <span className="font-semibold text-slate-200">{game.platforms.length} platform</span>
+                <span className="text-slate-400 font-medium">{language === "ID" ? "Total Platform" : "Total Platforms"}</span>
+                <span className="font-semibold text-slate-200">{game.platforms.length} {language === "ID" ? "platform" : "platforms"}</span>
               </div>
               <div className="flex justify-between py-2.5">
-                <span className="text-slate-400 font-medium">Dilihat</span>
-                <span className="font-semibold text-slate-200">{game.viewers.toLocaleString()} kali</span>
+                <span className="text-slate-400 font-medium">{language === "ID" ? "Dilihat" : "Views"}</span>
+                <span className="font-semibold text-slate-200">{game.viewers.toLocaleString()} {language === "ID" ? "kali" : "times"}</span>
               </div>
             </div>
           </div>
@@ -285,7 +349,7 @@ export default function GameDetailPage() {
           {/* Sidebar Box 3: Gim Rating Serupa */}
           <div className="bg-slate-900/60 border border-slate-800/80 rounded-xl p-5 shadow-lg">
             <h4 className="text-xs uppercase tracking-wider text-slate-400 font-bold mb-4 flex items-center gap-1.5">
-              <Sparkles className="size-4 text-destructive" /> Gim Rating Serupa
+              <Sparkles className="size-4 text-destructive" /> {language === "ID" ? "Gim Rating Serupa" : "Similar Rating Games"}
             </h4>
             {similarGames.length > 0 ? (
               <div className="flex flex-col gap-3">
@@ -316,7 +380,7 @@ export default function GameDetailPage() {
               </div>
             ) : (
               <p className="text-xs text-slate-400 text-center py-4 bg-slate-950/30 rounded-lg">
-                Tidak ada gim serupa dengan rating yang sama.
+                {language === "ID" ? "Tidak ada gim serupa dengan rating yang sama." : "No similar games with the same rating found."}
               </p>
             )}
           </div>

@@ -138,7 +138,7 @@ export default function AboutPage() {
       </div>
 
       {/* 2. Indonesia Game Rating System Details */}
-      <div className="max-w-6xl mx-auto w-full px-4 md:px-12 pb-20 flex flex-col lg:flex-row gap-10">
+      <div className="max-w-6xl mx-auto w-full px-4 md:px-12 pb-20 flex flex-col lg:flex-row gap-10 scroll-animate">
         {/* Left Column: Info Cards */}
         <div className="lg:w-[60%] flex flex-col gap-6">
           <span className="text-xs font-bold uppercase tracking-wider text-red-500 font-heading">
@@ -209,7 +209,7 @@ export default function AboutPage() {
       </div>
 
       {/* 3. Mid Banner (Mengapa IGRS Hadir?) */}
-      <div className="w-full bg-slate-950/80 relative">
+      <div className="w-full bg-slate-950/80 relative scroll-animate">
         <GrassDecoration />
         <div className="max-w-6xl mx-auto w-full px-4 md:px-12 py-16 flex flex-col gap-10 text-center items-center">
           <div className="flex flex-col items-center gap-2">
@@ -244,7 +244,7 @@ export default function AboutPage() {
       </div>
 
       {/* 4. Bottom Section: Cara Klasifikasi Gim di IGRS */}
-      <div className="max-w-6xl mx-auto w-full px-4 md:px-12 py-20 flex flex-col gap-10">
+      <div className="max-w-6xl mx-auto w-full px-4 md:px-12 py-20 flex flex-col gap-10 scroll-animate">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex flex-col gap-2 max-w-2xl">
             <span className="text-xs font-bold uppercase tracking-wider text-sky-400 font-heading">
@@ -257,8 +257,10 @@ export default function AboutPage() {
               {t("about.process.desc")}
             </p>
           </div>
-          <Button className="bg-sky-600 hover:bg-sky-500 text-white font-semibold flex items-center gap-2 py-5 px-6 rounded-lg self-start shrink-0 cursor-pointer transition shadow-md border-none">
-            <Download className="size-4" /> {t("about.process.download")}
+          <Button asChild className="bg-sky-600 hover:bg-sky-500 text-white font-semibold flex items-center gap-2 py-5 px-6 rounded-lg self-start shrink-0 cursor-pointer transition shadow-md border-none">
+            <a href="/panduan-igrs.pdf" download="Panduan_IGRS.pdf">
+              <Download className="size-4" /> {t("about.process.download")}
+            </a>
           </Button>
         </div>
 

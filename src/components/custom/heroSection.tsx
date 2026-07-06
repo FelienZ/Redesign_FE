@@ -33,21 +33,21 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden text-card flex flex-col justify-center text-center items-center gap-5 bg-linear-to-tl from-secondary via-blue-950 to-secondary px-4 py-14">
       <div className="relative z-10 w-full max-w-3xl flex flex-col items-center text-center gap-6">
-        <Badge className="bg-(--rating-3-soft) inset-shadow-xs text-(--rating-3-text) p-2 px-4 border border-(--rating-3-solid)/20 text-xs font-semibold tracking-wider flex items-center gap-2 uppercase">
+        <Badge className="bg-(--rating-3-soft) inset-shadow-xs text-(--rating-3-text) p-2 px-4 border border-(--rating-3-solid)/20 text-xs font-semibold tracking-wider flex items-center gap-2 uppercase stagger-el stagger-delay-1">
           <Heart className="fill-(--rating-3-solid)" /> {t("hero.badge")}
         </Badge>
         <div className="flex flex-col gap-3">
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight stagger-el stagger-delay-2">
             {t("hero.title_p1")} <span className="text-(--rating-3-text)"> {t("hero.title_p2")}</span> {t("hero.title_p3")}{" "}
             <span className="text-destructive">{t("hero.title_p4")}</span>
           </h2>
-          <div className="text-slate-300">
+          <div className="text-slate-300 stagger-el stagger-delay-3">
             {t("hero.sub")}
             <p className="text-sm text-slate-400 mt-1">{t("hero.sub_desc")}</p>
           </div>
         </div>
         <div className="flex flex-col gap-5 w-full px-4">
-          <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row shadow-[6px_6px_0px_var(--accent)] w-full max-w-2xl mx-auto rounded-md overflow-hidden bg-accent/75">
+          <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row shadow-[6px_6px_0px_var(--accent)] w-full max-w-2xl mx-auto rounded-md overflow-hidden bg-accent/75 transition-all duration-300 focus-within:shadow-[6px_6px_0px_var(--destructive)] focus-within:bg-accent/90 focus-within:scale-[1.01] focus-within:ring-1 focus-within:ring-destructive/50 stagger-el stagger-delay-4">
             <Input
               placeholder={t("hero.placeholder")}
               value={query}
@@ -58,7 +58,7 @@ export default function HeroSection() {
               {t("hero.btn")}
             </Button>
           </form>
-          <div className="flex flex-wrap items-center justify-center gap-2 text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs stagger-el stagger-delay-5">
             <p className="text-slate-300">{t("hero.filter")}</p>
             <Badge onClick={() => handleQuickFilter("3")} className="bg-(--rating-3-soft) text-(--rating-3-solid) p-3 px-4 border-(--rating-3-solid) hover:scale-105 cursor-pointer transition">
               {t("hero.rating.3")}
@@ -76,7 +76,7 @@ export default function HeroSection() {
               {t("hero.rating.18")}
             </Badge>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-slate-400 mt-2">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-slate-400 mt-2 stagger-el stagger-delay-6">
             <span className="font-medium text-slate-400">
               {t("hero.popular")}
             </span>
@@ -97,7 +97,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-      <>
         {decorationItems.map((i, idx) => (
           <img
             key={`${i.src}-${idx}`}
@@ -105,15 +104,16 @@ export default function HeroSection() {
             alt=""
             style={{
               top: i.top,
+              bottom: i.bottom,
               left: i.left,
+              right: i.right,
               width: i.size,
-              height: i.size,
+              height: "auto",
               opacity: i.opacity,
             }}
-            className="absolute"
+            className={`absolute hidden md:block select-none pointer-events-none stagger-el stagger-delay-7 ${i.className || ""}`}
           />
         ))}
-      </>
     </section>
   );
 }

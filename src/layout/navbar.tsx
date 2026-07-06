@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, Search, X } from "lucide-react";
+import { Globe, Menu, X } from "lucide-react";
 import NavLinkPath from "../components/ui/navlinkPath";
 import { Link } from "react-router";
 import { useState } from "react";
@@ -39,29 +39,16 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Button asChild variant="outline" className="rounded-md border-slate-200 bg-white text-slate-700">
-            <Link to="/search">
-              <Search className="size-4" /> {t("nav.search")}
-            </Link>
-          </Button>
           <Button
             onClick={() => setLanguage(language === "ID" ? "EN" : "ID")}
             variant="outline"
-            className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
+            className="rounded-md border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition duration-200 cursor-pointer flex items-center gap-2"
           >
             <Globe className="size-4" /> {language}
           </Button>
           <Button
-            onClick={() => handleOpenAuth("register")}
-            variant="outline"
-            className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
-          >
-            {t("nav.register")}
-          </Button>
-          <Button
             onClick={() => handleOpenAuth("login")}
-            variant="outline"
-            className="rounded-md bg-destructive px-4 text-white hover:bg-destructive/90 hover:text-white cursor-pointer border-none"
+            className="rounded-md bg-destructive text-white hover:bg-destructive/90 transition duration-200 cursor-pointer border-none px-5 py-2 font-semibold text-sm"
           >
             {t("nav.login")}
           </Button>
@@ -78,8 +65,8 @@ export default function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="border-t border-slate-200 bg-card px-4 py-4 shadow-lg lg:hidden">
-          <nav className="flex flex-col gap-4 text-sm font-semibold">
+        <div className="border-t border-slate-200 bg-card px-4 py-5 shadow-lg lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <nav className="flex flex-col gap-3.5 text-sm font-semibold px-1">
             {navItems.map((item) => (
               <NavLinkPath
                 key={item.path}
@@ -90,29 +77,16 @@ export default function Navbar() {
             ))}
           </nav>
           <div className="mt-5 grid grid-cols-2 gap-3">
-            <Button asChild variant="outline" className="rounded-md border-slate-200 bg-white text-slate-700">
-              <Link to="/search" onClick={() => setIsOpen(false)}>
-                <Search className="size-4" /> {t("nav.search")}
-              </Link>
-            </Button>
             <Button
               onClick={() => setLanguage(language === "ID" ? "EN" : "ID")}
               variant="outline"
-              className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
+              className="rounded-md border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition duration-200 cursor-pointer flex items-center gap-2 justify-center"
             >
               <Globe className="size-4" /> {language}
             </Button>
             <Button
-              onClick={() => handleOpenAuth("register")}
-              variant="outline"
-              className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
-            >
-              {t("nav.register")}
-            </Button>
-            <Button
               onClick={() => handleOpenAuth("login")}
-              variant="outline"
-              className="rounded-md bg-destructive text-white hover:bg-destructive/90 hover:text-white border-none cursor-pointer"
+              className="rounded-md bg-destructive text-white hover:bg-destructive/95 transition duration-200 border-none cursor-pointer py-2 font-semibold text-sm"
             >
               {t("nav.login")}
             </Button>

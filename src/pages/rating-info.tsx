@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/utils/LanguageContext";
 import {
   Check,
   X,
@@ -66,6 +67,167 @@ export default function RatingInfoPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get("tab") || "3";
   const activeTab = tabParam;
+  const { language } = useLanguage();
+
+  const tLocal = (text: string): string => {
+    if (language === "ID") return text;
+    switch (text) {
+      // Headers & Metadata
+      case "■■■ PANDUAN RATING": return "■■■ RATING MANUAL";
+      case "Informasi Rating Usia": return "Age Rating Guidelines";
+      case "6 kategori rating + 9 klasifikasi konten untuk membantu orang tua memilih gim yang sesuai.":
+        return "6 rating categories + 9 content classifications to help parents choose appropriate games.";
+      case "KONTEN DALAM GIM": return "GAMEPLAY CONTENT";
+      case "Konten tidak diperbolehkan": return "Prohibited Content";
+      case "Konten diperbolehkan": return "Allowed Content";
+      case "Pengawasan Orang Tua": return "Parental Supervision";
+      case "Kami menyarankan orang tua untuk memahami konten gim yang dimainkan anak serta berdiskusi bersama tentang pengalaman bermain mereka.":
+        return "We recommend parents to understand the content of games their children play and discuss their gaming experiences together.";
+      
+      // Warning & Info Boxes
+      case "Apa itu Klasifikasi Konten?": return "What is Content Classification?";
+      case "Klasifikasi konten adalah label tambahan yang muncul di samping badge rating usia. Label ini menjelaskan jenis konten spesifik dalam gim — seperti kekerasan, bahasa kasar, atau simulasi judi — membantu orang tua membuat keputusan yang lebih tepat dan terinformasi.":
+        return "Content classification is an additional label that appears next to the age rating badge. This label describes specific types of content in the game — such as violence, harsh language, or simulated gambling — helping parents make more precise and informed decisions.";
+      
+      // Tab names
+      case "Semua Umur": return "All Ages";
+      case "Anak": return "Children";
+      case "Remaja": return "Teenagers";
+      case "Dewasa Muda": return "Young Adults";
+      case "Dewasa": return "Adults";
+      case "Konten Terlarang": return "Prohibited Content";
+      case "Klasifikasi Konten": return "Content Classification";
+      case "Regulasi Negara": return "State Regulation";
+      
+      // Guidelines
+      case "Usia 3+ tahun": return "Ages 3+";
+      case "Usia 7+ tahun": return "Ages 7+";
+      case "Usia 13+ tahun": return "Ages 13+";
+      case "Usia 15+ tahun": return "Ages 15+";
+      case "Usia 18+ tahun": return "Ages 18+";
+      
+      // Allowed items
+      case "Konten edukatif": return "Educational content";
+      case "Karakter kartun non-kekerasan": return "Non-violent cartoon characters";
+      case "Cerita ringan dan menyenangkan": return "Light and fun stories";
+      case "Musik dan efek suara yang ramah anak": return "Child-friendly music and sound effects";
+      case "Kekerasan ringan bergaya kartun": return "Cartoon-style light violence";
+      case "Tema petualangan ringan": return "Light adventure themes";
+      case "Kompetisi sederhana": return "Simple competitions";
+      case "Interaksi online terbatas (dengan moderasi)": return "Limited online interaction (moderated)";
+      case "Kekerasan sedang (tidak eksplisit)": return "Moderate violence (non-explicit)";
+      case "Bahasa tidak pantas ringan": return "Mild inappropriate language";
+      case "Tema dewasa ringan": return "Mild adult themes";
+      case "Kompetisi online": return "Online competition";
+      case "Cerita dengan konflik dan moralitas": return "Stories with conflict and morality";
+      case "Kekerasan lebih nyata": return "More realistic violence";
+      case "Bahasa kasar": return "Harsh language";
+      case "Tema dewasa": return "Adult themes";
+      case "Konten seksual sangat ringan (non-eksplisit)": return "Very mild sexual content (non-explicit)";
+      case "Cerita kompleks dengan tema moral berat": return "Complex stories with heavy moral themes";
+      case "Kekerasan eksplisit": return "Explicit violence";
+      case "Konten seksual (non-pornografi)": return "Sexual content (non-pornography)";
+      case "Tema berat dan sensitif": return "Heavy and sensitive themes";
+      case "Simulasi judi (dalam konteks fiksi)": return "Simulated gambling (fictional context)";
+
+      // Disallowed items
+      case "Kekerasan dalam bentuk apapun": return "Any form of violence";
+      case "Bahasa kasar atau umpatan": return "Harsh language or swearing";
+      case "Konten seksual": return "Sexual content";
+      case "Judi atau simulasi judi": return "Gambling or simulated gambling";
+      case "Narkoba, rokok, atau alkohol": return "Drugs, cigarettes, or alcohol";
+      case "Konten menakutkan/menyeramkan": return "Scary/creepy content";
+      case "Diskriminasi SARA": return "SARA discrimination";
+      case "Fitur chat atau interaksi online": return "Chat features or online interaction";
+      case "Kekerasan realistis atau berdarah": return "Realistic or bloody violence";
+      case "Bahasa kasar yang vulgar": return "Vulgar harsh language";
+      case "Judi": return "Gambling";
+      case "Konten menakutkan ekstrem": return "Extreme scary content";
+      case "Kekerasan sangat grafis atau gore": return "Very graphic violence or gore";
+      case "Konten seksual eksplisit": return "Explicit sexual content";
+      case "Penggambaran judi secara nyata": return "Real depiction of gambling";
+      case "Glorifikasi narkoba atau alkohol": return "Glorification of drugs or alcohol";
+      case "Konten teror atau kekerasan ekstrem": return "Terror content or extreme violence";
+      case "Glorifikasi narkoba": return "Glorification of drugs";
+      case "Kekerasan ekstrem/gore berlebihan": return "Excessive extreme violence/gore";
+      case "Konten yang melanggar perundang-undangan": return "Content that violates legislation";
+      case "Pornografi": return "Pornography";
+      case "Glorifikasi kejahatan nyata": return "Glorification of real crime";
+      case "Propaganda terlarang": return "Prohibited propaganda";
+      case "Pornografi dan eksploitasi seksual": return "Pornography and sexual exploitation";
+      case "Perjudian nyata (berbasis uang riil)": return "Real gambling (real money)";
+      case "Penyalahgunaan narkoba dan zat adiktif lainnya": return "Abuse of drugs and other addictive substances";
+      case "Makar, terorisme, dan separatisme": return "Treason, terrorism, and separatism";
+      case "Ujaran kebencian ekstrem & pelecehan SARA": return "Extreme hate speech & SARA harassment";
+      
+      // Summaries
+      case "Gim dengan rating ini tidak mengandung konten yang berpotensi membahayakan bagi siapa pun. Orang tua dapat membiarkan anak bermain tanpa khawatir.":
+        return "Games with this rating do not contain content that is potentially harmful to anyone. Parents can let children play without worry.";
+      case "Gim ini boleh mengandung kekerasan ringan non-realistis seperti gaya kartun. Orang tua tetap disarankan mendampingi dan memantau waktu bermain anak.":
+        return "This game may contain light non-realistic violence such as cartoon style. Parents are still advised to guide and monitor their children's play time.";
+      case "Gim ini bisa mengandung kekerasan sedang, bahasa tidak pantas, atau tema dewasa ringan. Cocok untuk remaja namun tetap perlu pengawasan dari orang tua.":
+        return "This game can contain moderate violence, inappropriate language, or mild adult themes. Suitable for teenagers but still needs parental supervision.";
+      case "Gim ini mengandung konten yang lebih berat — kekerasan lebih nyata, bahasa kasar, atau tema dewasa. Tidak direkomendasikan untuk anak di bawah 15 tahun.":
+        return "This game contains heavier content — more realistic violence, harsh language, or adult themes. Not recommended for children under 15 years old.";
+      case "Gim ini mengandung konten dewasa yang tidak sesuai untuk anak dan remaja — termasuk kekerasan eksplisit, konten seksual, atau tema berat lainnya.":
+        return "This game contains adult content that is not suitable for children and teenagers — including explicit violence, sexual content, or other heavy themes.";
+      case "Konten yang dilarang keras untuk dimuat dalam permainan interaktif elektronik yang beredar di wilayah hukum Republik Indonesia. Gim yang memuat konten ini tidak diperbolehkan rilis.":
+        return "Content that is strictly prohibited from being included in interactive electronic games circulating in the jurisdiction of the Republic of Indonesia. Games containing this content are not allowed to be released.";
+      case "Metode IGRS dalam mengelompokkan kandungan game berdasarkan 9 aspek penilai konten.":
+        return "The IGRS method of grouping game content based on 9 content assessment aspects.";
+
+      // Descriptors
+      case "Horor": return "Horror";
+      case "Interaksi Daring": return "Online Interaction";
+      case "Penampilan Tokoh": return "Character Appearance";
+      case "Kekerasan": return "Violence";
+      case "Seksualitas / Pornografi": return "Sexuality / Pornography";
+      case "Rokok, Narkotika & Alkohol": return "Tobacco, Drugs & Alcohol";
+      case "Darah, Mutilasi & Kanibalisme": return "Blood, Mutilation & Cannibalism";
+      case "Bahasa Kasar": return "Harsh Language";
+      case "Simulasi Judi": return "Simulated Gambling";
+      case "Penyimpangan Perilaku": return "Behavioral Deviation";
+
+      case "Gim mengandung elemen yang dapat menimbulkan rasa takut, seperti penampakan hantu, suasana mencekam, atau jumpscare.":
+        return "The game contains elements that can cause fear, such as ghost sightings, a tense atmosphere, or jumpscares.";
+      case "Anak kecil mudah terbawa suasana. Pertimbangkan dampak pada tidur dan kecemasan anak.":
+        return "Young children are easily affected by atmosphere. Consider the impact on the child's sleep and anxiety.";
+      case "Gim memiliki fitur bermain bersama atau berkomunikasi dengan pemain lain secara online, seperti chat teks, suara, atau video.":
+        return "The game features playing together or communicating with other players online, such as text, voice, or video chat.";
+      case "Pantau dengan siapa anak berinteraksi online. Ajarkan etika digital dan bahaya orang asing.":
+        return "Monitor who your child interacts with online. Teach digital ethics and the dangers of strangers.";
+      case "Gim menampilkan karakter dengan penampilan yang menonjolkan bagian tubuh tertentu atau busana yang tidak pantas.":
+        return "The game features characters with appearances that emphasize certain body parts or inappropriate attire.";
+      case "Diskusikan dengan anak tentang standar penampilan yang realistis dan menghormati diri sendiri.":
+        return "Discuss with your child about realistic appearance standards and self-respect.";
+      case "Gim mengandung adegan atau mekanisme yang melibatkan tindakan kekerasan, dari yang ringan (kartun) hingga realistis.":
+        return "The game contains scenes or mechanisms involving acts of violence, from mild (cartoonish) to realistic.";
+      case "Kekerasan berulang dapat menumpulkan empati. Diskusikan bahwa kekerasan nyata punya konsekuensi serius.":
+        return "Repeated violence can desensitize empathy. Discuss that real-world violence has serious consequences.";
+      case "Gim mengandung konten seksual, mulai dari yang sangat ringan (romansa) hingga eksplisit (pornografi).":
+        return "The game contains sexual content, ranging from very mild (romance) to explicit (pornography).";
+      case "Konten ini tidak boleh diakses anak. Gunakan kontrol orang tua di perangkat dan toko aplikasi.":
+        return "This content must not be accessed by children. Use parental controls on devices and app stores.";
+      case "Gim menampilkan atau menggambarkan penggunaan rokok, narkotika, minuman beralkohol, atau zat adiktif lainnya.":
+        return "The game shows or describes the use of tobacco, narcotics, alcoholic drinks, or other addictive substances.";
+      case "Paparan dini pada konten ini dapat membentuk persepsi positif terhadap zat berbahaya pada anak.":
+        return "Early exposure to this content can form a positive perception of harmful substances in children.";
+      case "Gim menampilkan darah, luka grafis, mutilasi anggota tubuh, atau adegan kanibalisme.":
+        return "The game features blood, graphic wounds, mutilation of body parts, or scenes of cannibalism.";
+      case "Konten ini sangat tidak cocok untuk anak dan remaja. Dapat menyebabkan trauma atau desensitisasi.":
+        return "This content is highly unsuitable for children and teenagers. It can cause trauma or desensitization.";
+      case "Gim menggunakan kata-kata kasar, makian, atau bahasa yang tidak pantas dalam dialog, narasi, atau interaksi pemain.":
+        return "The game uses harsh words, swearing, or inappropriate language in dialogues, narration, or player interactions.";
+      case "Anak-anak mudah meniru bahasa yang sering mereka dengar. Tetapkan norma komunikasi di rumah.":
+        return "Children easily mimic language they often hear. Establish communication norms at home.";
+      case "Gim memiliki mekanisme yang menyerupai perjudian, seperti loot box, gacha, atau taruhan virtual dengan hadiah.":
+        return "The game has mechanisms resembling gambling, such as loot boxes, gacha, or virtual betting with rewards.";
+      case "Mekanisme gacha dirancang adiktif. Batasi akses dan awasi pengeluaran anak dalam gim.":
+        return "Gacha mechanisms are designed to be addictive. Limit access and monitor your child's in-game spending.";
+
+      default: return text;
+    }
+  };
 
   const handleTabSelect = (tabId: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -346,13 +508,13 @@ export default function RatingInfoPage() {
       <div className="relative pt-12 pb-12 px-4 md:px-12 bg-linear-to-b from-blue-950/20 to-transparent">
         <div className="max-w-6xl mx-auto flex flex-col gap-6 relative z-10">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-500 font-heading">
-            ■■■ PANDUAN RATING
+            {tLocal("■■■ PANDUAN RATING")}
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white font-heading">
-            Informasi Rating Usia
+            {tLocal("Informasi Rating Usia")}
           </h1>
           <p className="text-sm md:text-base text-slate-400 max-w-2xl leading-relaxed">
-            6 kategori rating + 9 klasifikasi konten untuk membantu orang tua memilih gim yang sesuai.
+            {tLocal("6 kategori rating + 9 klasifikasi konten untuk membantu orang tua memilih gim yang sesuai.")}
           </p>
 
           {/* Dynamic Tabs Bar */}
@@ -370,7 +532,7 @@ export default function RatingInfoPage() {
                 <span className={`w-7 h-5 flex items-center justify-center rounded font-pixel font-bold text-xs text-white ${tab.colorClass}`}>
                   {tab.badgeText}
                 </span>
-                <span>{tab.label}</span>
+                <span>{tLocal(tab.label)}</span>
                 {activeTab === tab.id && (
                   <span
                     className="absolute bottom-0 left-0 w-full h-[3px] rounded-full"
@@ -402,7 +564,7 @@ export default function RatingInfoPage() {
       <div className="max-w-6xl mx-auto w-full px-4 md:px-12 pb-24">
         {activeTab === "klasifikasi" ? (
           /* Custom Layout: Klasifikasi Konten */
-          <div className="flex flex-col gap-8 animate-in fade-in duration-300">
+          <div className="flex flex-col gap-8 animate-in fade-in duration-300 scroll-animate">
             {/* Top Warning Box */}
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-5 flex items-start gap-4">
               <div className="p-3 bg-amber-500 text-slate-900 rounded-lg flex items-center justify-center shrink-0">
@@ -410,10 +572,10 @@ export default function RatingInfoPage() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <h4 className="text-md font-bold text-slate-100 font-heading">
-                  Apa itu Klasifikasi Konten?
+                  {tLocal("Apa itu Klasifikasi Konten?")}
                 </h4>
                 <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-normal">
-                  Klasifikasi konten adalah <strong>label tambahan</strong> yang muncul di samping badge rating usia. Label ini menjelaskan jenis konten spesifik dalam gim — seperti kekerasan, bahasa kasar, atau simulasi judi — membantu orang tua membuat keputusan yang lebih tepat dan terinformasi.
+                  {tLocal("Klasifikasi konten adalah label tambahan yang muncul di samping badge rating usia. Label ini menjelaskan jenis konten spesifik dalam gim — seperti kekerasan, bahasa kasar, atau simulasi judi — membantu orang tua membuat keputusan yang lebih tepat dan terinformasi.")}
                 </p>
               </div>
             </div>
@@ -433,7 +595,7 @@ export default function RatingInfoPage() {
                           {desc.icon}
                         </div>
                         <h4 className="text-sm md:text-base font-extrabold text-slate-200 font-heading">
-                          {desc.title}
+                          {tLocal(desc.title)}
                         </h4>
                       </div>
                       <div className="flex items-center gap-1">
@@ -449,14 +611,14 @@ export default function RatingInfoPage() {
                     </div>
 
                     <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                      {desc.description}
+                      {tLocal(desc.description)}
                     </p>
                   </div>
 
                   {/* Parental Advice Note Box */}
                   <div className="bg-slate-950/50 border border-slate-800 p-3 rounded-lg flex items-start gap-2 text-[11px] leading-relaxed text-slate-400 mt-4">
                     <Lightbulb className="size-4 text-amber-500 shrink-0 mt-0.5" />
-                    <span>{desc.advice}</span>
+                    <span>{tLocal(desc.advice)}</span>
                   </div>
                 </div>
               ))}
@@ -464,7 +626,7 @@ export default function RatingInfoPage() {
           </div>
         ) : (
           /* Standard Layout: Premium 2-Column Mockup Layout */
-          <div className="flex flex-col lg:flex-row gap-10 animate-in fade-in duration-300 items-start">
+          <div className="flex flex-col lg:flex-row gap-10 animate-in fade-in duration-300 items-start scroll-animate">
             {/* Left Column: Visual Badge Glass Card */}
             <div 
               className="w-full lg:w-[35%] flex flex-col items-center gap-6 p-8 rounded-3xl bg-slate-950/60 border bg-gradient-to-b from-slate-900/60 to-slate-950/80 transition duration-300 relative overflow-hidden"
@@ -489,9 +651,9 @@ export default function RatingInfoPage() {
 
               {/* Title & Age Info */}
               <div className="flex flex-col items-center text-center gap-2">
-                <h3 className="text-2xl font-extrabold text-slate-100 font-heading">{currentTab.label}</h3>
+                <h3 className="text-2xl font-extrabold text-slate-100 font-heading">{tLocal(currentTab.label)}</h3>
                 <span className={`text-sm font-extrabold tracking-wider ${currentTab.textClass}`}>
-                  {currentTab.ageGuideline}
+                  {tLocal(currentTab.ageGuideline)}
                 </span>
                 <span 
                   className="w-12 h-1 rounded-full mt-1.5"
@@ -501,7 +663,7 @@ export default function RatingInfoPage() {
 
               {/* Summary Text */}
               <p className="text-xs md:text-sm text-slate-400 leading-relaxed text-center font-normal px-2">
-                {currentTab.summary}
+                {tLocal(currentTab.summary)}
               </p>
 
               {/* Button */}
@@ -513,7 +675,7 @@ export default function RatingInfoPage() {
                   >
                     <div className="flex items-center gap-2">
                       <Shield className="size-5 shrink-0" />
-                      <span>Lihat GIM {currentTab.badgeText}</span>
+                      <span>{language === "ID" ? `Lihat GIM ${currentTab.badgeText}` : `View ${currentTab.badgeText} Games`}</span>
                     </div>
                     <ChevronRight className="size-5" />
                   </Button>
@@ -529,7 +691,7 @@ export default function RatingInfoPage() {
                   <span className="w-1.5 h-1.5 rotate-45 bg-amber-500" />
                 </div>
                 <h3 className="font-extrabold tracking-widest text-xs md:text-sm uppercase text-slate-200 font-heading">
-                  KONTEN DALAM GIM
+                  {tLocal("KONTEN DALAM GIM")}
                 </h3>
                 <div className="h-[2px] w-16 bg-gradient-to-l from-transparent to-amber-500/60 relative flex items-center justify-start">
                   <span className="w-1.5 h-1.5 rotate-45 bg-amber-500" />
@@ -545,7 +707,7 @@ export default function RatingInfoPage() {
                       <X className="size-6 -rotate-45" />
                     </div>
                     <span className="text-xs font-extrabold tracking-wide leading-tight text-slate-300 font-heading mt-1">
-                      Konten tidak diperbolehkan
+                      {tLocal("Konten tidak diperbolehkan")}
                     </span>
                   </div>
                   {/* Right Items List */}
@@ -553,7 +715,7 @@ export default function RatingInfoPage() {
                     {currentTab.notAllowed.map((item, idx) => (
                       <div key={idx} className="flex items-start gap-3 text-xs md:text-sm text-slate-400 font-medium">
                         <X className="size-4 text-red-500 shrink-0 mt-0.5" />
-                        <span>{item}</span>
+                        <span>{tLocal(item)}</span>
                       </div>
                     ))}
                   </div>
@@ -569,7 +731,7 @@ export default function RatingInfoPage() {
                       <Check className="size-6 -rotate-45" />
                     </div>
                     <span className="text-xs font-extrabold tracking-wide leading-tight text-slate-300 font-heading mt-1">
-                      Konten diperbolehkan
+                      {tLocal("Konten diperbolehkan")}
                     </span>
                   </div>
                   {/* Right Items List */}
@@ -577,7 +739,7 @@ export default function RatingInfoPage() {
                     {currentTab.allowed.map((item, idx) => (
                       <div key={idx} className="flex items-start gap-3 text-xs md:text-sm text-slate-400 font-medium">
                         <Check className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <span>{item}</span>
+                        <span>{tLocal(item)}</span>
                       </div>
                     ))}
                   </div>
@@ -596,10 +758,10 @@ export default function RatingInfoPage() {
                   {/* Right Description */}
                   <div className="flex-1 flex flex-col gap-1.5 md:border-l md:border-slate-800/80 md:pl-6 w-full">
                     <h4 className="text-sm font-extrabold text-blue-400 uppercase tracking-wider font-heading">
-                      Pengawasan Orang Tua
+                      {tLocal("Pengawasan Orang Tua")}
                     </h4>
                     <p className="text-xs md:text-sm text-slate-400 leading-relaxed font-normal">
-                      Kami menyarankan orang tua untuk memahami konten gim yang dimainkan anak serta berdiskusi bersama tentang pengalaman bermain mereka.
+                      {tLocal("Kami menyarankan orang tua untuk memahami konten gim yang dimainkan anak serta berdiskusi bersama tentang pengalaman bermain mereka.")}
                     </p>
                   </div>
                 </div>
@@ -614,19 +776,4 @@ export default function RatingInfoPage() {
   );
 }
 
-// Inline ArrowRight helper
-const ArrowRight = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-);
+

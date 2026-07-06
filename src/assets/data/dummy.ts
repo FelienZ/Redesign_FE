@@ -152,40 +152,40 @@ export const dummyNews = [
         "id" : 1,
         "title" : "Evaluasi dan Penangguhan Sementara Layanan Klasifikasi Gim IGRS",
         "label": "Pengumuman Penting",
-        "description" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex voluptas quos. Tempora debitis voluptatum iure, repudiandae eius fugiat ipsa, commodi voluptate blanditiis dicta vero deserunt. Libero animi voluptatibus esse et?",
+        "description" : "Kementerian Komunikasi dan Digital (Komdigi) bersama Komite IGRS mengumumkan evaluasi dan penangguhan sementara layanan guna memperbarui sistem penilaian otomatis yang lebih akurat.",
         "createdAt" : "2026-06-30T13:25:00Z",
-        "imageUrl" : "/nekomichi.jpg"
+        "imageUrl" : "/VALORANT bg.jpg"
     },
     {
         "id" : 2,
         "title" : "Pemberitahuan Terkait Proses Verifikasi IGRS",
         "label": "Pengumuman Penting",
-        "description" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex voluptas quos. Tempora debitis voluptatum iure, repudiandae eius fugiat ipsa, commodi voluptate blanditiis dicta vero deserunt. Libero animi voluptatibus esse et?",
+        "description" : "Bagi penerbit gim nasional dan internasional, berikut adalah alur baru verifikasi dokumen pendukung klasifikasi mandiri (self-assessment) untuk menjamin transparansi data.",
         "createdAt" : "2026-06-30T13:25:00Z",
-        "imageUrl" : "/nekomichi.jpg"
+        "imageUrl" : "/minecraft bg.jpg"
     },
     {
         "id" : 3,
         "title" : "Maklumat Pelayanan IGRS untuk Masyarakat",
         "label": "Berita",
-        "description" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex voluptas quos. Tempora debitis voluptatum iure, repudiandae eius fugiat ipsa, commodi voluptate blanditiis dicta vero deserunt. Libero animi voluptatibus esse et?",
+        "description" : "Komitmen pelayanan prima IGRS untuk masyarakat Indonesia dalam menyediakan direktori gim yang ramah keluarga serta mendukung pertumbuhan industri gim nasional.",
         "createdAt" : "2026-06-30T13:25:00Z",
-        "imageUrl" : "/nekomichi.jpg"
+        "imageUrl" : "/Roblox bg.jpg"
     },
     {
         "id" : 4,
         "title" : "Panduan Cuplikan Konten untuk Penerbit Gim",
         "label": "Panduan",
-        "description" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex voluptas quos. Tempora debitis voluptatum iure, repudiandae eius fugiat ipsa, commodi voluptate blanditiis dicta vero deserunt. Libero animi voluptatibus esse et?",
+        "description" : "Panduan teknis bagi pengembang untuk mempersiapkan cuplikan permainan (gameplay video) dan tangkapan layar yang representatif guna mempercepat proses verifikasi rating.",
         "createdAt" : "2026-06-30T13:25:00Z",
-        "imageUrl" : "/nekomichi.jpg"
+        "imageUrl" : "/genshin impact bg.jpg"
     },
     {
         "id" : 5,
         "title" : "IGRS Hadirkan Fitur Pencarian Gim Berdasarkan Usia",
         "label": "Berita",
-        "description" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex voluptas quos. Tempora debitis voluptatum iure, repudiandae eius fugiat ipsa, commodi voluptate blanditiis dicta vero deserunt. Libero animi voluptatibus esse et?",
+        "description" : "Kini direktori IGRS dilengkapi dengan filter pintar yang memudahkan orang tua menyaring game berdasarkan rentang usia anak secara langsung lewat beranda utama.",
         "createdAt" : "2026-06-30T13:25:00Z",
-        "imageUrl" : "/nekomichi.jpg"
+        "imageUrl" : "/angry birds reloaded bg.jpg"
     },
 ] 

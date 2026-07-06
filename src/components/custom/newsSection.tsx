@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router";
 import { dummyNews } from "@/assets/data/dummy";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { newsConfig } from "@/utils/styleConfig";
+import useNews from "@/utils/hooks/news/useNews";
+import { useLanguage } from "@/utils/LanguageContext";
 import {
   CalendarDays,
   ChevronRight,
@@ -18,8 +20,34 @@ import GrassDecoration from "@/components/ui/grassDecoration";
 export default function NewsSection() {
   const navigate = useNavigate();
   const [selectedNews, setSelectedNews] = useState<any>(null);
+  const { data: newsResponse } = useNews();
+  const { language } = useLanguage();
+  const apiNews = newsResponse?.data?.data || [];
 
-  const mainNews = dummyNews[0];
+  const getMappedNews = (item: any) => {
+    if (!item) return null;
+    const cat = item.category?.category || "Berita";
+    let mappedLabel: "Pengumuman Penting" | "Berita" | "Panduan" = "Berita";
+    if (cat.toLowerCase() === "update" || cat.toLowerCase() === "pengumuman") {
+      mappedLabel = "Pengumuman Penting";
+    } else if (cat.toLowerCase() === "panduan" || cat.toLowerCase() === "guide") {
+      mappedLabel = "Panduan";
+    }
+    return {
+      id: item.id,
+      title: item.title,
+      description: item.description || "",
+      imageUrl: item.thumbnailUrl || item.imageUrl || "/Minecraft bg.jpg",
+      label: mappedLabel,
+      createdAt: item.createdAt,
+    };
+  };
+
+  const newsList = apiNews.length > 0 
+    ? apiNews.map(getMappedNews).filter(Boolean) 
+    : dummyNews;
+
+  const mainNews = newsList[0];
 
   const handleNewsClick = (newsItem: any) => {
     if (newsItem.label === "Panduan") {
@@ -32,7 +60,7 @@ export default function NewsSection() {
   };
 
   return (
-    <section className="bg-secondary flex flex-col justify-between">
+    <section className="bg-secondary flex flex-col justify-between scroll-animate">
       <div className="flex flex-col gap-6 px-4 py-10 md:px-8 max-w-7xl w-full mx-auto">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-x-2">
@@ -66,9 +94,15 @@ export default function NewsSection() {
                 alt={mainNews.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 mask-[linear-gradient(to_bottom,rgba(0,0,0,1)_70%,rgba(0,0,0,0)_100%)]"
               />
-              <div className="absolute backdrop-blur-md flex items-center gap-2 top-4 left-4 bg-destructive p-2 text-xs rounded font-bold text-white border border-white/10 select-none">
+              <div className={`absolute backdrop-blur-md flex items-center gap-2 top-4 left-4 p-2 text-xs rounded font-bold border border-white/10 select-none ${
+                mainNews.label === "Pengumuman Penting"
+                  ? "bg-destructive text-white"
+                  : mainNews.label === "Panduan"
+                    ? "bg-amber-600 text-white"
+                    : "bg-[oklch(0.65_0.20_145)] text-slate-900"
+              }`}>
                 <Info className="size-4" />
-                <span>Pengumuman Penting</span>
+                <span>{mainNews.label}</span>
               </div>
             </div>
             {/* Card Content */}
@@ -82,10 +116,16 @@ export default function NewsSection() {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-t border-slate-800/40 pt-4 mt-2">
                 <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium">
                   <span className="flex items-center gap-1">
-                    <CalendarDays className="size-3.5" /> 7 Februari 2025
+                    <CalendarDays className="size-3.5" /> 
+                    {new Date(mainNews.createdAt).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
                   </span>
                   <span className="flex items-center gap-1">
-                    <Clock className="size-3.5" /> 3 Menit yang lalu
+                    <Clock className="size-3.5" /> 
+                    {Math.max(1, Math.round((mainNews.description || "").split(" ").length / 200))} {language === "ID" ? "Menit baca" : "Min read"}
                   </span>
                 </div>
                 <Button
@@ -100,7 +140,7 @@ export default function NewsSection() {
 
           {/* Sidebar List News Cards */}
           <div className="flex flex-col gap-4">
-            {dummyNews.slice(1, 5).map((i) => (
+            {newsList.slice(1, 5).map((i: any) => (
               <div 
                 key={i.id} 
                 onClick={() => handleNewsClick(i)}

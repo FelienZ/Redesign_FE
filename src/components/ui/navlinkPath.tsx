@@ -12,9 +12,11 @@ export default function NavLinkPath({ path, title, onClick }: NavLinkPathProps) 
       to={path}
       onClick={onClick}
       className={({ isActive }) =>
-        isActive
-          ? "text-destructive font-bold"
-          : "text-slate-600 hover:text-slate-950"
+        `transition-all duration-200 hover:scale-[1.02] pb-1 border-b-2 ${
+          isActive
+            ? "text-destructive font-bold border-destructive"
+            : "text-slate-600 hover:text-slate-900 border-transparent"
+        }`
       }
     >
       {title}

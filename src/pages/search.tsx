@@ -1,7 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { gamesData, type Game } from "@/assets/data/games";
 import { Input } from "@/components/ui/input";
+import { useLanguage } from "@/utils/LanguageContext";
+import useGames from "@/utils/hooks/games/useGames";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -66,12 +68,85 @@ function getGameRatingTheme(rating: Game["rating"]) {
 }
 
 export default function SearchPage() {
+  const { language } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParam = searchParams.get("q") || "";
   const ratingParam = (searchParams.get("rating") || "all") as RatingFilter;
 
+  const getLocalizedRatingLabel = (value: RatingFilter) => {
+    if (language === "ID") {
+      switch(value) {
+        case "all": return "Semua Rating";
+        case "3": return "3+ Semua Umur";
+        case "7": return "7+ Anak";
+        case "13": return "13+ Remaja";
+        case "15": return "15+ Dewasa Muda";
+        case "18": return "18+ Dewasa";
+      }
+    } else {
+      switch(value) {
+        case "all": return "All Ratings";
+        case "3": return "3+ All Ages";
+        case "7": return "7+ Children";
+        case "13": return "13+ Teenagers";
+        case "15": return "15+ Young Adults";
+        case "18": return "18+ Adults";
+      }
+    }
+  };
+
+  const getLocalizedRatingText = (value: RatingFilter) => {
+    if (language === "ID") {
+      switch(value) {
+        case "all": return "Semua rating";
+        case "3": return "Semua Umur";
+        case "7": return "Anak";
+        case "13": return "Remaja";
+        case "15": return "Dewasa Muda";
+        case "18": return "Dewasa";
+      }
+    } else {
+      switch(value) {
+        case "all": return "all ratings";
+        case "3": return "All Ages";
+        case "7": return "Children";
+        case "13": return "Teenagers";
+        case "15": return "Young Adults";
+        case "18": return "Adults";
+      }
+    }
+  };
+
   const selectedRating: RatingFilter = ratingParam in ratingThemes ? ratingParam : "all";
   const [searchQuery, setSearchQuery] = useState(queryParam);
+
+  useEffect(() => {
+    setSearchQuery(queryParam);
+  }, [queryParam]);
+
+  const { data: gamesResponse } = useGames({
+    search: queryParam || undefined,
+    rating: selectedRating !== "all" ? selectedRating : undefined,
+  });
+
+  const apiGames = gamesResponse?.data?.data || [];
+
+  const getMappedGame = (g: any) => {
+    if (!g) return null;
+    return {
+      id: g.slug,
+      title: g.title,
+      publisher: g.publisher?.name || "Publisher Resmi",
+      releaseYear: g.releaseDate ? new Date(g.releaseDate).getFullYear() : 2024,
+      rating: g.rating?.minimumAge || 3,
+      ratingLabel: g.rating?.label || "Semua Umur",
+      genre: g.gameGenres?.[0]?.name || "General",
+      platforms: g.gamePlatforms?.map((p: any) => p.name) || [],
+      descriptors: g.gameTags?.map((t: any) => t.name) || [],
+      description: g.description || "",
+      imageUrl: g.thumbnailUrl || "/Minecraft bg.jpg",
+    };
+  };
 
   const updateParams = (nextQuery: string, nextRating: RatingFilter) => {
     const nextParams = new URLSearchParams();
@@ -102,8 +177,12 @@ export default function SearchPage() {
   };
 
   const filteredGames = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
+    if (apiGames.length > 0) {
+      return apiGames.map(getMappedGame).filter(Boolean) as any[];
+    }
 
+    // Fallback search in gamesData local mockup
+    const normalizedQuery = searchQuery.trim().toLowerCase();
     return gamesData.filter((game) => {
       const matchesQuery =
         normalizedQuery === "" ||
@@ -117,7 +196,7 @@ export default function SearchPage() {
 
       return matchesQuery && matchesRating;
     });
-  }, [searchQuery, selectedRating]);
+  }, [searchQuery, selectedRating, apiGames]);
 
   return (
     <section className="flex min-h-screen flex-col justify-between bg-background text-slate-100">
@@ -125,21 +204,21 @@ export default function SearchPage() {
         <div className="mx-auto flex max-w-7xl flex-col gap-5">
           <nav className="flex items-center gap-2 text-xs text-slate-400 md:text-sm">
             <Link to="/" className="flex items-center gap-1 transition hover:text-white">
-              <ArrowLeft className="size-3" /> Beranda
+              <ArrowLeft className="size-3" /> {language === "ID" ? "Beranda" : "Home"}
             </Link>
             <span>/</span>
-            <span className="font-semibold text-slate-200">Hasil Pencarian</span>
+            <span className="font-semibold text-slate-200">{language === "ID" ? "Hasil Pencarian" : "Search Results"}</span>
           </nav>
 
           <div className="flex flex-col gap-2">
             <span className="text-xs font-bold uppercase tracking-wider text-amber-500 font-heading">
-              Direktori Gim IGRS
+              {language === "ID" ? "Direktori Gim IGRS" : "IGRS Game Directory"}
             </span>
             <h1 className="text-3xl font-extrabold text-white font-heading md:text-5xl">
-              Temukan rating gim sebelum bermain
+              {language === "ID" ? "Temukan rating gim sebelum bermain" : "Find game ratings before playing"}
             </h1>
             <p className="max-w-2xl text-sm leading-relaxed text-slate-400 md:text-base">
-              Cari berdasarkan judul, publisher, genre, atau gunakan filter rating usia.
+              {language === "ID" ? "Cari berdasarkan judul, publisher, genre, atau gunakan filter rating usia." : "Search by title, publisher, genre, or use age rating filters."}
             </p>
           </div>
 
@@ -151,7 +230,7 @@ export default function SearchPage() {
               <Search className="absolute left-4 size-5 text-slate-400" />
               <Input
                 type="text"
-                placeholder="Cari nama gim, publisher, genre..."
+                placeholder={language === "ID" ? "Cari nama gim, publisher, genre..." : "Search game name, publisher, genre..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full border-none bg-transparent py-6 pl-12 pr-10 text-white placeholder-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -168,21 +247,21 @@ export default function SearchPage() {
               )}
             </div>
             <Button type="submit" className="h-auto rounded-none bg-destructive px-6 text-white hover:bg-destructive/90 md:px-8">
-              Cari
+              {language === "ID" ? "Cari" : "Search"}
             </Button>
           </form>
 
           <div className="flex flex-wrap items-center gap-2 text-sm text-slate-300">
             <strong className="text-emerald-400">{filteredGames.length}</strong>
-            <span>gim ditemukan</span>
+            <span>{language === "ID" ? "gim ditemukan" : "games found"}</span>
             {queryParam && (
               <span>
-                untuk <strong className="text-emerald-400">"{queryParam}"</strong>
+                {language === "ID" ? "untuk" : "for"} <strong className="text-emerald-400">"{queryParam}"</strong>
               </span>
             )}
             {selectedRating !== "all" && (
               <Badge className={`${ratingThemes[selectedRating].chip} h-auto rounded-full px-3 py-1`}>
-                Rating {selectedRating}+ {ratingThemes[selectedRating].text}
+                Rating {selectedRating}+ {getLocalizedRatingText(selectedRating)}
                 <button type="button" onClick={() => handleRatingFilter("all")} className="ml-1 hover:text-white">
                   <X className="size-3" />
                 </button>
@@ -196,7 +275,7 @@ export default function SearchPage() {
         <aside className="flex flex-col gap-5">
           <div className="rounded-xl border border-slate-800/80 bg-slate-900/55 p-5 shadow-xl backdrop-blur-xs">
             <h3 className="mb-4 flex items-center gap-2 border-b border-slate-800/80 pb-4 text-sm font-bold text-slate-100">
-              <Filter className="size-4 text-destructive" /> Filter Rating
+              <Filter className="size-4 text-destructive" /> {language === "ID" ? "Filter Rating" : "Rating Filter"}
             </h3>
             <div className="flex flex-col gap-2">
               {ratingFilters.map((filter) => (
@@ -213,7 +292,7 @@ export default function SearchPage() {
                   <span className={`flex h-6 w-10 shrink-0 items-center justify-center rounded font-pixel text-sm font-bold text-white ${filter.badge}`}>
                     {filter.value === "all" ? "All" : `${filter.value}+`}
                   </span>
-                  <span className="min-w-0 truncate">{filter.label}</span>
+                  <span className="min-w-0 truncate">{getLocalizedRatingLabel(filter.value)}</span>
                 </button>
               ))}
             </div>
@@ -221,10 +300,10 @@ export default function SearchPage() {
 
           <div className="rounded-xl border border-slate-800/80 bg-slate-900/30 p-5">
             <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-100">
-              <SlidersHorizontal className="size-4 text-amber-500" /> Tips pencarian
+              <SlidersHorizontal className="size-4 text-amber-500" /> {language === "ID" ? "Tips pencarian" : "Search tips"}
             </h3>
             <p className="text-xs leading-relaxed text-slate-400">
-              Gunakan kata kunci singkat seperti nama gim, genre, atau publisher agar hasil lebih akurat.
+              {language === "ID" ? "Gunakan kata kunci singkat seperti nama gim, genre, atau publisher agar hasil lebih akurat." : "Use short keywords like game name, genre, or publisher for more accurate results."}
             </p>
           </div>
         </aside>
@@ -277,10 +356,10 @@ export default function SearchPage() {
                       <div className="flex flex-col gap-3 border-t border-slate-800/80 pt-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${ratingTheme.chip}`}>
-                            {game.rating}+ - {ratingTheme.text}
+                            {game.rating}+ - {getLocalizedRatingText(String(game.rating) as RatingFilter)}
                           </span>
                           <div className="flex flex-wrap gap-1.5">
-                            {game.platforms.slice(0, 3).map((platform) => (
+                            {game.platforms.slice(0, 3).map((platform: string) => (
                               <Badge key={platform} className="h-auto rounded bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300 hover:bg-slate-800">
                                 {platform}
                               </Badge>
@@ -289,7 +368,7 @@ export default function SearchPage() {
                         </div>
 
                         <div className="flex flex-wrap gap-1.5">
-                          {game.descriptors.slice(0, 3).map((desc) => (
+                          {game.descriptors.slice(0, 3).map((desc: string) => (
                             <span
                               key={desc}
                               className="rounded border border-destructive/35 bg-destructive/5 px-2 py-0.5 text-[11px] font-medium text-destructive"
@@ -300,7 +379,7 @@ export default function SearchPage() {
                         </div>
 
                         <span className="flex items-center gap-1 self-start text-sm font-semibold text-yellow-500 transition group-hover:translate-x-1 group-hover:text-yellow-400">
-                          Lihat Detail <ChevronRight className="size-4" />
+                          {language === "ID" ? "Lihat Detail" : "View Details"} <ChevronRight className="size-4" />
                         </span>
                       </div>
                     </div>
@@ -312,13 +391,13 @@ export default function SearchPage() {
             <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-slate-800/80 bg-slate-900/25 py-20 text-center backdrop-blur-xs">
               <Search className="size-12 text-slate-500" />
               <div className="flex flex-col gap-1">
-                <h4 className="text-lg font-bold text-slate-200">Gim Tidak Ditemukan</h4>
+                <h4 className="text-lg font-bold text-slate-200">{language === "ID" ? "Gim Tidak Ditemukan" : "Game Not Found"}</h4>
                 <p className="max-w-md px-4 text-sm leading-relaxed text-slate-400">
-                  Coba kata kunci lain atau bersihkan filter rating yang sedang aktif.
+                  {language === "ID" ? "Coba kata kunci lain atau bersihkan filter rating yang sedang aktif." : "Try another keyword or clear the active rating filter."}
                 </p>
               </div>
               <Button onClick={resetSearch} className="mt-2 bg-destructive text-white hover:bg-destructive/90">
-                Reset Pencarian
+                {language === "ID" ? "Reset Pencarian" : "Reset Search"}
               </Button>
             </div>
           )}

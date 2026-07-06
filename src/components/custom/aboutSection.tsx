@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Square, SquareArrowOutUpRight } from "lucide-react";
 import { Link } from "react-router";
 import GrassDecoration from "../ui/grassDecoration";
+import { useLanguage } from "@/utils/LanguageContext";
 
 export default function AboutSection() {
+  const { language } = useLanguage();
   return (
-    <section className="flex flex-col justify-between bg-secondary">
+    <section className="flex flex-col justify-between bg-secondary scroll-animate">
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:min-h-[80vh] text-card max-w-7xl w-full mx-auto gap-8 px-4 py-16 items-center">
         {/* Left Column: Stats */}
         <div className="order-2 lg:order-1 flex flex-col sm:flex-row lg:flex-col gap-8 justify-center items-center lg:items-start px-4 lg:px-8">
@@ -19,7 +21,9 @@ export default function AboutSection() {
                 224
               </h3>
             </div>
-            <p className="text-sm text-slate-300 font-semibold tracking-wide uppercase">Total Gim yang Terdaftar</p>
+            <p className="text-sm text-slate-300 font-semibold tracking-wide uppercase">
+              {language === "ID" ? "Total Gim yang Terdaftar" : "Total Registered Games"}
+            </p>
           </div>
           <div className="flex flex-col gap-2 text-center lg:text-left">
             <div className="text-(--rating-3-text) text-6xl md:text-8xl font-pixel tracking-wide [text-shadow:4px_4px_0px_var(--rating-3-soft)]">
@@ -30,7 +34,9 @@ export default function AboutSection() {
                 118
               </h3>
             </div>
-            <p className="text-sm text-slate-300 font-semibold tracking-wide uppercase">Total Penerbit Gim yang Terdaftar</p>
+            <p className="text-sm text-slate-300 font-semibold tracking-wide uppercase">
+              {language === "ID" ? "Total Penerbit Gim yang Terdaftar" : "Total Registered Publishers"}
+            </p>
           </div>
         </div>
 
@@ -42,11 +48,11 @@ export default function AboutSection() {
           >
             <Square className="fill-(--rating-3-text) size-3" />
             <Square className="fill-(--rating-3-text) size-3" />
-            <Square className="fill-(--rating-3-text) size-3" /> Tentang Kami
+            <Square className="fill-(--rating-3-text) size-3" /> {language === "ID" ? "Tentang Kami" : "About Us"}
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold leading-tight font-heading text-white">
-            <span className="text-(--rating-3-text)">IGRS</span> atau{" "}
-            Klasifikasi Permainan Interaktif Elektronik{" "}
+            <span className="text-(--rating-3-text)">IGRS</span> {language === "ID" ? "atau" : "or"}{" "}
+            {language === "ID" ? "Klasifikasi Permainan Interaktif Elektronik" : "Electronic Interactive Game Classification"}{" "}
             <span className="text-(--rating-3-text) underline underline-offset-4 decoration-dashed">
               (KPIE)
             </span>
@@ -55,11 +61,13 @@ export default function AboutSection() {
             <span className="font-bold text-white">
               Indonesia Game Rating System (IGRS)
             </span>{" "}
-            adalah sistem klasifikasi permainan interaktif elektronik berdasarkan usia pengguna untuk mempermudah masyarakat memilih gim yang sesuai serta mendukung ekosistem gim nasional yang ramah keluarga.
+            {language === "ID" 
+              ? "adalah sistem klasifikasi permainan interaktif elektronik berdasarkan usia pengguna untuk mempermudah masyarakat memilih gim yang sesuai serta mendukung ekosistem gim nasional yang ramah keluarga."
+              : "is an electronic interactive game classification system based on user age to make it easier for the public to choose appropriate games and support a family-friendly national game ecosystem."}
           </p>
           <Button asChild className="w-fit py-6 px-5 cursor-pointer rounded-xl font-bold bg-destructive hover:bg-destructive/90 text-white transition border-none shadow-md">
             <Link to="/about" className="flex items-center gap-2">
-              <SquareArrowOutUpRight className="size-4" /> Tentang IGRS
+              <SquareArrowOutUpRight className="size-4" /> {language === "ID" ? "Tentang IGRS" : "About IGRS"}
             </Link>
           </Button>
         </div>
