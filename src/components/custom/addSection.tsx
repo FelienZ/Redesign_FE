@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Star from "@/assets/elements/Star.svg";
+import { Link } from "react-router";
 
 export default function AddSection() {
   return (
@@ -27,8 +28,10 @@ export default function AddSection() {
         molestias facilis cupiditate ratione provident exercitationem velit,
         voluptate ullam et, ipsum sint expedita deserunt non magnam?
       </p>
-      <Button className="py-6 px-3 bg-(--rating-3-solid)">
-        Daftarkan Gim Mandiri
+      <Button asChild className="py-6 px-3 bg-(--rating-3-solid) text-white hover:bg-(--rating-3-solid)/90 cursor-pointer">
+        <Link to="/submit-game">
+          Daftarkan Gim Mandiri
+        </Link>
       </Button>
     </section>
   );

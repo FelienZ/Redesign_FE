@@ -1,13 +1,20 @@
 import { Outlet } from "react-router";
 import Navbar from "@/layout/navbar";
+import { LanguageProvider } from "@/utils/LanguageContext";
+import ScrollHelper from "@/utils/ScrollHelper";
+import { Toaster } from "sonner";
 
 export default function Layout() {
+  ScrollHelper();
   return (
-    <section className="bg-background">
-      <Navbar />
-      <article className="pt-5 min-h-screen">
-        <Outlet />
-      </article>
-    </section>
+    <LanguageProvider>
+      <section className="bg-background">
+        <Navbar />
+        <article className="min-h-screen pt-16">
+          <Outlet />
+        </article>
+      </section>
+      <Toaster theme="dark" richColors position="top-center" />
+    </LanguageProvider>
   );
 }
