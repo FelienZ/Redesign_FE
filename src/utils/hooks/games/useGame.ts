@@ -4,6 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 export default function useGame(slug: string){
     return useQuery({
         queryKey: ['Game', slug],
-        queryFn: ()=> GameServices.getGameDetail
+        queryFn: ()=> GameServices.getGameDetail(slug)
     })
 }

@@ -146,7 +146,7 @@ export default function RatingSection() {
                   to={`/information?tab=${games?.data[0].slug}`}
                   className="text-xs font-bold text-sky-400 hover:underline flex items-center gap-1 mt-4 hover:translate-x-1 transition duration-200"
                 >
-                  Lihat Detail Rating {games?.data[0].title}+ &gt;
+                  Lihat Detail Rating Berdasar Usia &gt;
                 </Link>
               </div>
 
@@ -155,7 +155,7 @@ export default function RatingSection() {
                 {games?.data.map((game) => (
                   <Link
                     key={game.id}
-                    to={`/game/${game.id}`}
+                    to={`/game/${game.slug}`}
                     className="group bg-slate-900/30 border border-slate-800/80 rounded-xl overflow-hidden shadow-md hover:scale-[1.02] hover:border-slate-700/80 hover:bg-slate-900/50 transition duration-300 flex flex-col justify-between"
                   >
                     <div className="relative aspect-video w-full overflow-hidden bg-slate-950">

@@ -9,8 +9,10 @@ import useGameFilters from "@/utils/hooks/games/useGameFilters";
 import { dummyRating } from "@/assets/data/dummy";
 import { gamesData } from "@/assets/data/games";
 import { HeroLoadingSkeleton } from "./skeletons";
+import { useNavigate } from "react-router";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
   const {
     data: games,
     isLoading: isGameLoading,
@@ -44,8 +46,16 @@ export default function HeroSection() {
           </div>
         </div>
         <div className="flex flex-col gap-5 w-full px-4">
-          <form className="flex flex-col sm:flex-row shadow-[6px_6px_0px_var(--accent)] w-full max-w-2xl mx-auto rounded-md overflow-hidden bg-accent/75">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              const q = formData.get("q");
+              if (q) navigate(`/search?q=${encodeURIComponent(q.toString())}`);
+            }}
+            className="flex flex-col sm:flex-row shadow-[6px_6px_0px_var(--accent)] w-full max-w-2xl mx-auto rounded-md overflow-hidden bg-accent/75">
             <Input
+              name="q"
               placeholder={"Search game title, publisher, genre.."}
               className="shadow-lg border-none p-3 py-6 col-span-2 bg-transparent text-white placeholder-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0 flex-1"
             />

@@ -12,6 +12,7 @@ import GrassDecoration from "@/components/ui/grassDecoration";
 import useNews from "@/utils/hooks/news/useNews";
 import ImageWithFallback from "../ui/imageWithFallback";
 import { NewsSkeleton } from "./skeletons";
+import { Link } from "react-router";
 
 export default function NewsSection() {
   const {
@@ -31,10 +32,13 @@ export default function NewsSection() {
             </div>
           </div>
           <Button
+            asChild
             variant={"outline"}
-            className="bg-secondary border-primary text-primary self-start sm:self-auto"
+            className="bg-secondary border-primary text-primary self-start sm:self-auto cursor-pointer"
           >
-            Lihat Semua <ChevronRight />
+            <Link to="/news">
+              Lihat Semua <ChevronRight />
+            </Link>
           </Button>
         </div>
         {isLoadingNews || isErrorNews ? (
@@ -71,10 +75,13 @@ export default function NewsSection() {
                     {news?.data[0].updatedAt}
                   </div>
                   <Button
+                    asChild
                     variant={"link"}
-                    className="text-destructive hover:text-card transition"
+                    className="text-destructive hover:text-card transition cursor-pointer"
                   >
-                    Baca Selengkapnya <ChevronRight />
+                    <Link to={`/news/${news?.data[0].slug}`}>
+                      Baca Selengkapnya <ChevronRight />
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -106,10 +113,13 @@ export default function NewsSection() {
                         year: "numeric",
                       })}
                       <Button
+                        asChild
                         variant={"link"}
-                        className={newsConfig[i.category.slug].textColor}
+                        className={`${newsConfig[i.category.slug].textColor} cursor-pointer`}
                       >
-                        Baca <ChevronRight />
+                        <Link to={`/news/${i.slug}`}>
+                          Baca <ChevronRight />
+                        </Link>
                       </Button>
                     </div>
                   </div>

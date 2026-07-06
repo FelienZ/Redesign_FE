@@ -8,7 +8,7 @@ export const NewsServices = {
         const response = await ApiClient.get(`/news`, {params})
         return response.data
     },
-    getNewsDetail: async(slug: string): Promise<ApiResponse<News[]>> => {
+    getNewsDetail: async(slug: string): Promise<News> => {
         const response = await ApiClient.get(`news/${slug}`)
         return response.data
     },

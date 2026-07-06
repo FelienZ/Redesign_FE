@@ -4,7 +4,6 @@ import NavLinkPath from "../components/ui/navlinkPath";
 import { Link } from "react-router";
 import { useState } from "react";
 import { useLanguage } from "@/utils/LanguageContext";
-import AuthModal from "@/components/custom/AuthModal";
 
 const navItems = [
   { path: "/", titleKey: "nav.home" as const },
@@ -15,15 +14,7 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "register">("login");
-
-  const handleOpenAuth = (mode: "login" | "register") => {
-    setAuthMode(mode);
-    setIsAuthOpen(true);
-    setIsOpen(false);
-  };
+  const { language, t } = useLanguage();
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 bg-card/95 text-card-foreground shadow-md backdrop-blur">
@@ -44,26 +35,16 @@ export default function Navbar() {
               <Search className="size-4" /> {t("nav.search")}
             </Link>
           </Button>
-          <Button
-            onClick={() => setLanguage(language === "ID" ? "EN" : "ID")}
-            variant="outline"
-            className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
-          >
-            <Globe className="size-4" /> {language}
+          <Button asChild variant="outline" className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer">
+            <Link to="/under-development">
+              <Globe className="size-4" /> {language}
+            </Link>
           </Button>
-          <Button
-            onClick={() => handleOpenAuth("register")}
-            variant="outline"
-            className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
-          >
-            {t("nav.register")}
+          <Button asChild variant="outline" className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer">
+            <Link to="/under-development">{t("nav.register")}</Link>
           </Button>
-          <Button
-            onClick={() => handleOpenAuth("login")}
-            variant="outline"
-            className="rounded-md bg-destructive px-4 text-white hover:bg-destructive/90 hover:text-white cursor-pointer border-none"
-          >
-            {t("nav.login")}
+          <Button asChild variant="outline" className="rounded-md bg-destructive px-4 text-white hover:bg-destructive/90 hover:text-white cursor-pointer border-none">
+            <Link to="/under-development">{t("nav.login")}</Link>
           </Button>
         </div>
 
@@ -95,35 +76,21 @@ export default function Navbar() {
                 <Search className="size-4" /> {t("nav.search")}
               </Link>
             </Button>
-            <Button
-              onClick={() => setLanguage(language === "ID" ? "EN" : "ID")}
-              variant="outline"
-              className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
-            >
-              <Globe className="size-4" /> {language}
+            <Button asChild variant="outline" className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer">
+              <Link to="/under-development" onClick={() => setIsOpen(false)}>
+                <Globe className="size-4" /> {language}
+              </Link>
             </Button>
-            <Button
-              onClick={() => handleOpenAuth("register")}
-              variant="outline"
-              className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer"
-            >
-              {t("nav.register")}
+            <Button asChild variant="outline" className="rounded-md border-slate-200 bg-white text-slate-700 cursor-pointer">
+              <Link to="/under-development" onClick={() => setIsOpen(false)}>{t("nav.register")}</Link>
             </Button>
-            <Button
-              onClick={() => handleOpenAuth("login")}
-              variant="outline"
-              className="rounded-md bg-destructive text-white hover:bg-destructive/90 hover:text-white border-none cursor-pointer"
-            >
-              {t("nav.login")}
+            <Button asChild variant="outline" className="rounded-md bg-destructive text-white hover:bg-destructive/90 hover:text-white border-none cursor-pointer">
+              <Link to="/under-development" onClick={() => setIsOpen(false)}>{t("nav.login")}</Link>
             </Button>
           </div>
         </div>
       )}
 
-      {/* Auth Modal overlay component */}
-      {isAuthOpen && (
-        <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} initialTab={authMode} />
-      )}
     </header>
   );
 }

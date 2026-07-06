@@ -1,86 +1,51 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
-import { gamesData, type Game } from "@/assets/data/games";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   ArrowLeft,
-  Calendar,
   ChevronRight,
   Filter,
+  Infinity as InfinityLogo,
   Search,
   SlidersHorizontal,
   X,
 } from "lucide-react";
 import Footer from "@/layout/footer";
-
-type RatingFilter = "all" | "3" | "7" | "13" | "15" | "18";
-
-const ratingThemes: Record<RatingFilter, { label: string; badge: string; chip: string; text: string }> = {
-  all: {
-    label: "Semua Rating",
-    badge: "bg-slate-700",
-    chip: "bg-slate-800 text-slate-100 border-slate-700",
-    text: "Semua rating",
-  },
-  "3": {
-    label: "3+ Semua Umur",
-    badge: "bg-[oklch(0.65_0.20_145)]",
-    chip: "bg-[oklch(0.65_0.20_145)]/15 text-[oklch(0.85_0.22_145)] border-[oklch(0.65_0.20_145)]/30",
-    text: "Semua Umur",
-  },
-  "7": {
-    label: "7+ Anak",
-    badge: "bg-[oklch(0.72_0.18_125)]",
-    chip: "bg-[oklch(0.72_0.18_125)]/15 text-[oklch(0.88_0.20_125)] border-[oklch(0.72_0.18_125)]/30",
-    text: "Anak",
-  },
-  "13": {
-    label: "13+ Remaja",
-    badge: "bg-[oklch(0.68_0.19_75)]",
-    chip: "bg-[oklch(0.68_0.19_75)]/15 text-[oklch(0.85_0.18_75)] border-[oklch(0.68_0.19_75)]/30",
-    text: "Remaja",
-  },
-  "15": {
-    label: "15+ Dewasa Muda",
-    badge: "bg-[oklch(0.58_0.21_50)]",
-    chip: "bg-[oklch(0.58_0.21_50)]/15 text-[oklch(0.82_0.20_50)] border-[oklch(0.58_0.21_50)]/30",
-    text: "Dewasa Muda",
-  },
-  "18": {
-    label: "18+ Dewasa",
-    badge: "bg-[oklch(0.52_0.22_25)]",
-    chip: "bg-[oklch(0.52_0.22_25)]/15 text-[oklch(0.80_0.22_25)] border-[oklch(0.52_0.22_25)]/30",
-    text: "Dewasa",
-  },
-};
-
-const ratingFilters = Object.entries(ratingThemes).map(([value, theme]) => ({
-  value: value as RatingFilter,
-  ...theme,
-}));
-
-function getGameRatingTheme(rating: Game["rating"]) {
-  return ratingThemes[String(rating) as RatingFilter];
-}
+import useGames from "@/utils/hooks/games/useGames";
+import useGameFilters from "@/utils/hooks/games/useGameFilters";
+import ImageWithFallback from "@/components/ui/imageWithFallback";
+import { GameSectionSkeleton } from "@/components/custom/skeletons";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParam = searchParams.get("q") || "";
-  const ratingParam = (searchParams.get("rating") || "all") as RatingFilter;
-
-  const selectedRating: RatingFilter = ratingParam in ratingThemes ? ratingParam : "all";
+  const ratingParam = searchParams.get("rating") || "semua-umur";
+  const selectedRating = ratingParam || "semua-umur";
   const [searchQuery, setSearchQuery] = useState(queryParam);
 
-  const updateParams = (nextQuery: string, nextRating: RatingFilter) => {
+  const {
+    data: gamesResponse,
+    isLoading,
+    isError,
+  } = useGames({
+    search: queryParam || undefined,
+    rating: selectedRating,
+  });
+
+  const { ratings, isLoading: isFilterLoading } = useGameFilters();
+
+  const filteredGames = gamesResponse?.data || [];
+
+  const updateParams = (nextQuery: string, nextRating: string) => {
     const nextParams = new URLSearchParams();
 
     if (nextQuery.trim()) {
       nextParams.set("q", nextQuery.trim());
     }
 
-    if (nextRating !== "all") {
+    if (nextRating !== "semua-umur") {
       nextParams.set("rating", nextRating);
     }
 
@@ -92,7 +57,7 @@ export default function SearchPage() {
     updateParams(searchQuery, selectedRating);
   };
 
-  const handleRatingFilter = (ratingValue: RatingFilter) => {
+  const handleRatingFilter = (ratingValue: string) => {
     updateParams(searchQuery, ratingValue);
   };
 
@@ -101,34 +66,27 @@ export default function SearchPage() {
     setSearchParams(new URLSearchParams());
   };
 
-  const filteredGames = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-
-    return gamesData.filter((game) => {
-      const matchesQuery =
-        normalizedQuery === "" ||
-        [game.title, game.publisher, game.genre, game.description]
-          .join(" ")
-          .toLowerCase()
-          .includes(normalizedQuery);
-
-      const matchesRating =
-        selectedRating === "all" || game.rating.toString() === selectedRating;
-
-      return matchesQuery && matchesRating;
-    });
-  }, [searchQuery, selectedRating]);
+  // Find the selected rating label for the top badge
+  const selectedRatingObj = ratings.find(
+    (r) => String(r.minimumAge) === selectedRating,
+  );
+  const selectedRatingLabel = selectedRatingObj?.label || "";
 
   return (
     <section className="flex min-h-screen flex-col justify-between bg-background text-slate-100">
       <div className="bg-linear-to-b from-blue-950/35 to-transparent px-4 pb-8 pt-10 md:px-12">
         <div className="mx-auto flex max-w-7xl flex-col gap-5">
           <nav className="flex items-center gap-2 text-xs text-slate-400 md:text-sm">
-            <Link to="/" className="flex items-center gap-1 transition hover:text-white">
+            <Link
+              to="/"
+              className="flex items-center gap-1 transition hover:text-white"
+            >
               <ArrowLeft className="size-3" /> Beranda
             </Link>
             <span>/</span>
-            <span className="font-semibold text-slate-200">Hasil Pencarian</span>
+            <span className="font-semibold text-slate-200">
+              Hasil Pencarian
+            </span>
           </nav>
 
           <div className="flex flex-col gap-2">
@@ -139,7 +97,8 @@ export default function SearchPage() {
               Temukan rating gim sebelum bermain
             </h1>
             <p className="max-w-2xl text-sm leading-relaxed text-slate-400 md:text-base">
-              Cari berdasarkan judul, publisher, genre, atau gunakan filter rating usia.
+              Cari berdasarkan judul, publisher, genre, atau gunakan filter
+              rating usia.
             </p>
           </div>
 
@@ -167,7 +126,10 @@ export default function SearchPage() {
                 </button>
               )}
             </div>
-            <Button type="submit" className="h-auto rounded-none bg-destructive px-6 text-white hover:bg-destructive/90 md:px-8">
+            <Button
+              type="submit"
+              className="h-auto rounded-none bg-destructive px-6 text-white hover:bg-destructive/90 md:px-8"
+            >
               Cari
             </Button>
           </form>
@@ -177,13 +139,20 @@ export default function SearchPage() {
             <span>gim ditemukan</span>
             {queryParam && (
               <span>
-                untuk <strong className="text-emerald-400">"{queryParam}"</strong>
+                untuk{" "}
+                <strong className="text-emerald-400">"{queryParam}"</strong>
               </span>
             )}
-            {selectedRating !== "all" && (
-              <Badge className={`${ratingThemes[selectedRating].chip} h-auto rounded-full px-3 py-1`}>
-                Rating {selectedRating}+ {ratingThemes[selectedRating].text}
-                <button type="button" onClick={() => handleRatingFilter("all")} className="ml-1 hover:text-white">
+            {selectedRating !== "semua-umur" && (
+              <Badge
+                className={`bg-(--rating-${selectedRating}-soft) text-(--rating-${selectedRating}-solid) border border-(--rating-${selectedRating}-solid) h-auto rounded-full px-3 py-1`}
+              >
+                Rating {selectedRating}+ {selectedRatingLabel}
+                <button
+                  type="button"
+                  onClick={() => handleRatingFilter("semua-umur")}
+                  className="ml-1 hover:text-white"
+                >
                   <X className="size-3" />
                 </button>
               </Badge>
@@ -199,60 +168,105 @@ export default function SearchPage() {
               <Filter className="size-4 text-destructive" /> Filter Rating
             </h3>
             <div className="flex flex-col gap-2">
-              {ratingFilters.map((filter) => (
-                <button
-                  key={filter.value}
-                  type="button"
-                  onClick={() => handleRatingFilter(filter.value)}
-                  className={`flex w-full items-center gap-3 rounded-lg border p-2.5 text-left text-sm font-medium transition ${
-                    selectedRating === filter.value
-                      ? "border-destructive bg-destructive/15 text-white"
-                      : "border-transparent bg-slate-950/40 text-slate-300 hover:bg-slate-800/50 hover:text-white"
-                  }`}
+              <button
+                type="button"
+                onClick={() => handleRatingFilter("dewasa")}
+                className={`flex w-full items-center gap-3 rounded-lg border p-2.5 text-left text-sm font-medium transition ${
+                  selectedRating === "semua-umur"
+                    ? "border-destructive bg-destructive/15 text-white"
+                    : "border-transparent bg-slate-950/40 text-slate-300 hover:bg-slate-800/50 hover:text-white"
+                }`}
+              >
+                <span
+                  className={`flex h-6 w-10 shrink-0 items-center justify-center rounded font-pixel text-sm font-bold text-white bg-slate-700`}
                 >
-                  <span className={`flex h-6 w-10 shrink-0 items-center justify-center rounded font-pixel text-sm font-bold text-white ${filter.badge}`}>
-                    {filter.value === "all" ? "All" : `${filter.value}+`}
-                  </span>
-                  <span className="min-w-0 truncate">{filter.label}</span>
-                </button>
-              ))}
+                  <InfinityLogo className="size-4" />
+                </span>
+                <span className="min-w-0 truncate">Semua Rating</span>
+              </button>
+
+              {isFilterLoading ? (
+                <div className="text-xs text-slate-500 p-2">
+                  Memuat filter...
+                </div>
+              ) : (
+                ratings.map((filter) => (
+                  <button
+                    key={filter.slug}
+                    type="button"
+                    onClick={() => handleRatingFilter(String(filter.slug))}
+                    className={`flex w-full items-center gap-3 rounded-lg border p-2.5 text-left text-sm font-medium transition ${
+                      selectedRating === String(filter.minimumAge)
+                        ? "border-destructive bg-destructive/15 text-white"
+                        : "border-transparent bg-slate-950/40 text-slate-300 hover:bg-slate-800/50 hover:text-white"
+                    }`}
+                  >
+                    <span
+                      className={`flex h-6 w-10 shrink-0 items-center justify-center rounded font-pixel text-sm font-bold text-(--rating-${filter.minimumAge}-solid) bg-(--rating-${filter.minimumAge}-soft) border border-(--rating-${filter.minimumAge}-solid)/30`}
+                    >
+                      {filter.minimumAge}+
+                    </span>
+                    <span className="min-w-0 truncate">{filter.label}</span>
+                  </button>
+                ))
+              )}
             </div>
           </div>
 
           <div className="rounded-xl border border-slate-800/80 bg-slate-900/30 p-5">
             <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-100">
-              <SlidersHorizontal className="size-4 text-amber-500" /> Tips pencarian
+              <SlidersHorizontal className="size-4 text-amber-500" /> Tips
+              pencarian
             </h3>
             <p className="text-xs leading-relaxed text-slate-400">
-              Gunakan kata kunci singkat seperti nama gim, genre, atau publisher agar hasil lebih akurat.
+              Gunakan kata kunci singkat seperti nama gim, genre, atau publisher
+              agar hasil lebih akurat.
             </p>
           </div>
         </aside>
 
         <main>
-          {filteredGames.length > 0 ? (
+          {isLoading ? (
+            <GameSectionSkeleton />
+          ) : isError ? (
+            <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-slate-800/80 bg-slate-900/25 py-20 text-center backdrop-blur-xs">
+              <h4 className="text-lg font-bold text-slate-200">
+                Gagal Memuat Gim
+              </h4>
+              <p className="max-w-md px-4 text-sm leading-relaxed text-slate-400">
+                Terjadi kesalahan saat mengambil data dari server.
+              </p>
+            </div>
+          ) : filteredGames.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {filteredGames.map((game) => {
-                const ratingTheme = getGameRatingTheme(game.rating);
+                const ratingAge = game.rating?.minimumAge || 0;
+                const primaryGenre = game.gameGenres?.[0]?.name || "-";
 
                 return (
                   <Link
                     key={game.id}
-                    to={`/game/${game.id}`}
+                    to={`/game/${game.slug}`}
                     className="group flex flex-col overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/45 shadow-lg transition duration-300 hover:-translate-y-1 hover:border-slate-700/80 hover:bg-slate-900/75"
                   >
                     <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
-                      <img
-                        src={game.imageUrl}
+                      <ImageWithFallback
+                        src={game.thumbnailUrl}
                         alt={game.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute right-3 top-3 rounded border border-white/10 bg-black/60 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-xs">
-                        {game.genre}
+                        {primaryGenre}
                       </div>
-                      <div className={`absolute bottom-3 left-3 flex size-12 flex-col items-center justify-center rounded text-white shadow-lg ${ratingTheme.badge}`}>
-                        <span className="font-pixel text-lg font-bold leading-none">{game.rating}+</span>
-                        <span className="text-[9px] font-bold leading-none tracking-wider">IGRS</span>
+                      <div
+                        className={`absolute bottom-3 left-3 flex size-12 flex-col items-center justify-center rounded text-white shadow-lg bg-(--rating-${ratingAge}-solid)`}
+                      >
+                        <span className="font-pixel text-lg font-bold leading-none">
+                          {ratingAge}+
+                        </span>
+                        <span className="text-[9px] font-bold leading-none tracking-wider">
+                          IGRS
+                        </span>
                       </div>
                     </div>
 
@@ -262,11 +276,7 @@ export default function SearchPage() {
                           {game.title}
                         </h4>
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
-                          <span>{game.publisher}</span>
-                          <span className="flex items-center gap-1">
-                            <Calendar className="size-3 text-slate-500" />
-                            {game.releaseYear}
-                          </span>
+                          <span className="truncate">{game.slug}</span>
                         </div>
                         <p className="line-clamp-3 text-sm leading-relaxed text-slate-300/90">
                           {game.description}
@@ -275,30 +285,15 @@ export default function SearchPage() {
 
                       <div className="flex flex-col gap-3 border-t border-slate-800/80 pt-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <span className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${ratingTheme.chip}`}>
-                            {game.rating}+ - {ratingTheme.text}
+                          <span
+                            className={`rounded-full border px-2.5 py-1 text-xs font-semibold bg-(--rating-${ratingAge}-soft) text-(--rating-${ratingAge}-solid) border-(--rating-${ratingAge}-solid)/30`}
+                          >
+                            {ratingAge}+ - {game.rating?.label || ""}
                           </span>
-                          <div className="flex flex-wrap gap-1.5">
-                            {game.platforms.slice(0, 3).map((platform) => (
-                              <Badge key={platform} className="h-auto rounded bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300 hover:bg-slate-800">
-                                {platform}
-                              </Badge>
-                            ))}
-                          </div>
                         </div>
-
-                        <div className="flex flex-wrap gap-1.5">
-                          {game.descriptors.slice(0, 3).map((desc) => (
-                            <span
-                              key={desc}
-                              className="rounded border border-destructive/35 bg-destructive/5 px-2 py-0.5 text-[11px] font-medium text-destructive"
-                            >
-                              {desc}
-                            </span>
-                          ))}
-                        </div>
-
-                        <span className="flex items-center gap-1 self-start text-sm font-semibold text-yellow-500 transition group-hover:translate-x-1 group-hover:text-yellow-400">
+                        <span
+                          className={`flex items-center gap-1 self-start text-sm font-semibold text-(--rating-${game.rating.minimumAge}-text) transition group-hover:translate-x-1 group-hover:text-(--rating-${game.rating.minimumAge}-text) mt-2`}
+                        >
                           Lihat Detail <ChevronRight className="size-4" />
                         </span>
                       </div>
@@ -311,12 +306,18 @@ export default function SearchPage() {
             <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-slate-800/80 bg-slate-900/25 py-20 text-center backdrop-blur-xs">
               <Search className="size-12 text-slate-500" />
               <div className="flex flex-col gap-1">
-                <h4 className="text-lg font-bold text-slate-200">Gim Tidak Ditemukan</h4>
+                <h4 className="text-lg font-bold text-slate-200">
+                  Gim Tidak Ditemukan
+                </h4>
                 <p className="max-w-md px-4 text-sm leading-relaxed text-slate-400">
-                  Coba kata kunci lain atau bersihkan filter rating yang sedang aktif.
+                  Coba kata kunci lain atau bersihkan filter rating yang sedang
+                  aktif.
                 </p>
               </div>
-              <Button onClick={resetSearch} className="mt-2 bg-destructive text-white hover:bg-destructive/90">
+              <Button
+                onClick={resetSearch}
+                className="mt-2 bg-destructive text-white hover:bg-destructive/90"
+              >
                 Reset Pencarian
               </Button>
             </div>

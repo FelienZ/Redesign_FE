@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Navbar from "@/layout/navbar";
 import { LanguageProvider } from "@/utils/LanguageContext";
 import ScrollHelper from "@/utils/ScrollHelper";
+import { Toaster } from "sonner";
 
 export default function Layout() {
   ScrollHelper();
@@ -13,6 +14,7 @@ export default function Layout() {
           <Outlet />
         </article>
       </section>
+      <Toaster theme="dark" richColors position="top-center" />
     </LanguageProvider>
   );
 }
