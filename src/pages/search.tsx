@@ -21,8 +21,8 @@ import { GameSectionSkeleton } from "@/components/custom/skeletons";
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParam = searchParams.get("q") || "";
-  const ratingParam = searchParams.get("rating") || "semua-umur";
-  const selectedRating = ratingParam || "semua-umur";
+  const ratingParam = searchParams.get("rating") || "";
+  const selectedRating = ratingParam || "";
   const [searchQuery, setSearchQuery] = useState(queryParam);
 
   const {
@@ -45,7 +45,7 @@ export default function SearchPage() {
       nextParams.set("q", nextQuery.trim());
     }
 
-    if (nextRating !== "semua-umur") {
+    if (nextRating !== "") {
       nextParams.set("rating", nextRating);
     }
 
@@ -68,9 +68,9 @@ export default function SearchPage() {
 
   // Find the selected rating label for the top badge
   const selectedRatingObj = ratings.find(
-    (r) => String(r.minimumAge) === selectedRating,
+    (r) => String(r.slug) === selectedRating,
   );
-  const selectedRatingLabel = selectedRatingObj?.label || "";
+  const selectedRatingLabel = selectedRatingObj?.slug || "";
 
   return (
     <section className="flex min-h-screen flex-col justify-between bg-background text-slate-100">
@@ -143,14 +143,14 @@ export default function SearchPage() {
                 <strong className="text-emerald-400">"{queryParam}"</strong>
               </span>
             )}
-            {selectedRating !== "semua-umur" && (
+            {selectedRating !== "" && (
               <Badge
                 className={`bg-(--rating-${selectedRating}-soft) text-(--rating-${selectedRating}-solid) border border-(--rating-${selectedRating}-solid) h-auto rounded-full px-3 py-1`}
               >
                 Rating {selectedRating}+ {selectedRatingLabel}
                 <button
                   type="button"
-                  onClick={() => handleRatingFilter("semua-umur")}
+                  onClick={() => handleRatingFilter("")}
                   className="ml-1 hover:text-white"
                 >
                   <X className="size-3" />
@@ -170,9 +170,9 @@ export default function SearchPage() {
             <div className="flex flex-col gap-2">
               <button
                 type="button"
-                onClick={() => handleRatingFilter("dewasa")}
+                onClick={() => handleRatingFilter("")}
                 className={`flex w-full items-center gap-3 rounded-lg border p-2.5 text-left text-sm font-medium transition ${
-                  selectedRating === "semua-umur"
+                  selectedRating === ""
                     ? "border-destructive bg-destructive/15 text-white"
                     : "border-transparent bg-slate-950/40 text-slate-300 hover:bg-slate-800/50 hover:text-white"
                 }`}
@@ -196,7 +196,7 @@ export default function SearchPage() {
                     type="button"
                     onClick={() => handleRatingFilter(String(filter.slug))}
                     className={`flex w-full items-center gap-3 rounded-lg border p-2.5 text-left text-sm font-medium transition ${
-                      selectedRating === String(filter.minimumAge)
+                      selectedRating === String(filter.slug)
                         ? "border-destructive bg-destructive/15 text-white"
                         : "border-transparent bg-slate-950/40 text-slate-300 hover:bg-slate-800/50 hover:text-white"
                     }`}
