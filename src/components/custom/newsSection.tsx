@@ -69,10 +69,34 @@ export default function NewsSection() {
                 </p>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex flex-wrap items-center gap-2 text-sm">
-                    <CalendarDays className="size-4" />
-                    {news?.data[0].createdAt}
-                    <Clock className="size-4" />
-                    {news?.data[0].updatedAt}
+                    <div className="flex items-center gap-3">
+                      <CalendarDays className="size-4" />
+                      {new Date(
+                        news?.data[0].createdAt || new Date(),
+                      ).toLocaleDateString("id-ID", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock className="size-4" />
+                      {new Date(
+                        news?.data[0].updatedAt || new Date(),
+                      ).toLocaleDateString("id-ID", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })}
+                    </div>
                   </div>
                   <Button
                     asChild
@@ -96,7 +120,7 @@ export default function NewsSection() {
                   <ImageWithFallback
                     src={i.thumbnailUrl}
                     alt={i.slug}
-                    className="h-20 lg:h-25 place-self-center"
+                    className="h-30 aspect-video w-full object-cover"
                   />
                   <div className="flex flex-col gap-3">
                     <Badge
@@ -109,7 +133,7 @@ export default function NewsSection() {
                     <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
                       {new Date(i.createdAt).toLocaleDateString("id-ID", {
                         day: "numeric",
-                        month: "long",
+                        month: "short",
                         year: "numeric",
                       })}
                       <Button

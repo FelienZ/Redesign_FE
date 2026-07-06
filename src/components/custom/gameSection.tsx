@@ -24,7 +24,7 @@ export default function GameSection() {
     sortBy: sortMode,
   });
   return (
-    <section className="min-h-screen flex flex-col gap-5 px-8 py-10 justify-center">
+    <section className="min-h-screen flex flex-col gap-5 px-8 py-10">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <img src={Heart} alt="Heart-logo" />

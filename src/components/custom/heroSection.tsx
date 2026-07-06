@@ -46,22 +46,23 @@ export default function HeroSection() {
           </div>
         </div>
         <div className="flex flex-col gap-5 w-full px-4">
-          <form 
+          <form
             onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
               const q = formData.get("q");
               if (q) navigate(`/search?q=${encodeURIComponent(q.toString())}`);
             }}
-            className="flex flex-col sm:flex-row shadow-[6px_6px_0px_var(--accent)] w-full max-w-2xl mx-auto rounded-md overflow-hidden bg-accent/75">
+            className="grid grid-cols-[1.5fr_0.5fr] sm:flex-row shadow-[6px_6px_0px_var(--accent)] w-full max-w-2xl mx-auto rounded-md overflow-hidden bg-accent/75"
+          >
             <Input
               name="q"
               placeholder={"Search game title, publisher, genre.."}
-              className="shadow-lg border-none p-3 py-6 col-span-2 bg-transparent text-white placeholder-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0 flex-1"
+              className="shadow-lg border-none bg-transparent text-white placeholder-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0 flex-1"
             />
             <Button
               type="submit"
-              className="bg-destructive border-none py-6 px-6 shrink-0 cursor-pointer font-semibold text-white"
+              className="bg-destructive border-none shrink-0 cursor-pointer font-semibold text-white"
             >
               Search Game
             </Button>
