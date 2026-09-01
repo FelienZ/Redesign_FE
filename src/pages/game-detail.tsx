@@ -49,7 +49,15 @@ export default function GameDetailPage() {
   } : null;
 
   // Find game by ID or slug or fallback to default
-  const game = mappedGame || gamesData.find((g) => g.id === parseInt(id || "1")) || gamesData[0];
+  const game =
+    mappedGame ||
+    gamesData.find(
+      (g) =>
+        g.id === parseInt(id || "1") ||
+        g.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") === id?.toLowerCase() ||
+        g.title.toLowerCase() === id?.toLowerCase()
+    ) ||
+    gamesData[0];
 
   // Similar games (same rating, different ID)
   const similarGames = gamesData
